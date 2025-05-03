@@ -3,9 +3,9 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// Routers
+// Router
 const authRouter = require("./routes/authRouter.js");
 
 app.use("/auth", authRouter);
 
-app.listen(PORT, () => console.log(`Express running on port: ${PORT}`));
+app.listen(PORT, () => console.log(`Launched on port: ${PORT}`));
