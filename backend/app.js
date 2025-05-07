@@ -1,15 +1,28 @@
 const express = require("express");
 require("dotenv").config();
+const session = require("express-session");
+const passport = require("passport");
+const cors = require("cors");
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+app.use(cors());
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
+app.use(passport.session());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Router
 const authRouter = require("./routes/authRouter.js");
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 app.use("/auth", authRouter);
 

@@ -2,8 +2,11 @@ const { Router } = require("express");
 
 const authRouter = Router();
 
-authRouter.get("/", (req, res) => {
-  res.send("This is a test.");
-});
+const { loginPost, signupPost } = require("../controllers/authController.js");
+
+authRouter.post("/login", loginPost);
+authRouter.post("/signup", signupPost);
+
+// TODO: Implement logout
 
 module.exports = authRouter;
