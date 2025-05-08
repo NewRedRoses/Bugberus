@@ -24,8 +24,10 @@ app.use(express.urlencoded({ extended: true }));
 // Router
 const authRouter = require("./routes/authRouter.js");
 const userRouter = require("./routes/userRouter.js");
+const bugRouter = require("./routes/bugRouter.js");
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
+app.use("/bug", bugRouter);
 
 app.listen(PORT, () => console.log(`Launched on port: ${PORT}`));
