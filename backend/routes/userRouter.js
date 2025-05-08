@@ -3,8 +3,12 @@ const verifyToken = require("../middlewares/verifyToken.js");
 
 const userRouter = Router();
 
-userRouter.get("/", verifyToken, (req, res) => {
-  res.send("hello, user");
-});
+const {
+  fetchUserData,
+  fetchUserProjects,
+} = require("../controllers/userController.js");
+
+userRouter.get("/", verifyToken, fetchUserData);
+userRouter.get("/projects", verifyToken, fetchUserProjects);
 
 module.exports = userRouter;
