@@ -1,8 +1,9 @@
 const { Router } = require("express");
 const projectRouter = Router();
+const verifyToken = require("../middlewares/verifyToken.js");
 
-projectRouter.get("/", (req, res) => {
-  res.send("project");
-});
+const { fetchProjectBugs } = require("../controllers/projectController.js");
+
+projectRouter.get("/:projectId/bugs", verifyToken, fetchProjectBugs);
 
 module.exports = projectRouter;
