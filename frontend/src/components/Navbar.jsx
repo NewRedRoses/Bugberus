@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -9,9 +9,16 @@ export default function NavBar() {
   };
 
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-between">
+      <Link
+        to="/home"
+        className="rounded-md px-2 bg-slate-200 text-slate-800 font-bold hover:cursor-pointer"
+      >
+        Home
+      </Link>
+
       <button
-        className="rounded-xl px-2 bg-slate-200 text-slate-800 font-bold hover:cursor-pointer"
+        className="rounded-md px-2 bg-slate-200 text-slate-800 font-bold hover:cursor-pointer"
         onClick={handleClick}
       >
         Log Out
