@@ -40,4 +40,28 @@ const fetchProjectBugs = (req, res) => {
   });
 };
 
-module.exports = { fetchProjectDetails, fetchProjectBugs };
+const createProjectBug = (req, res) => {
+  jwt.verify(req.token, process.env.SECRET, async (error, authData) => {
+    if (error) {
+      res.sendStatus(403);
+    } else {
+      const projectId = parseInt(req.params.projectId);
+      const { name, description } = req.body;
+
+      const newBug = await prisma.bug.create({
+        data: {
+          name,
+          description,
+          projectId,
+        },
+      });
+      if (newBug) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(500);
+      }
+    }
+  });
+};
+
+module.exports = { fetchProjectDetails, fetchProjectBugs, createProjectBug };
