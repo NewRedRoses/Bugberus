@@ -32,9 +32,10 @@ model Project {
 }
 
 model Bug {
-  id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(50)
-  projectId Int
-  project   Project  @relation(fields: [projectId], references: [id])
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(50)
+  description String?
+  projectId   Int
+  project     Project  @relation(fields: [projectId], references: [id])
+  createdAt   DateTime @default(now())
 }
