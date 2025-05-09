@@ -1,8 +1,10 @@
 const { Router } = require("express");
 const bugRouter = Router();
 
-bugRouter.get("/", (req, res) => {
-  res.send("buggy");
-});
+const { fetchBug } = require("../controllers/bugController.js");
+
+const verifyToken = require("../middlewares/verifyToken.js");
+
+bugRouter.get("/:bugId", verifyToken, fetchBug);
 
 module.exports = bugRouter;
