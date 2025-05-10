@@ -57,10 +57,17 @@ export default function Project() {
           <p>The project you are looking for does not exist!</p>
         </>
       ) : (
-        <>
-          <h1 className="pb-3 font-bold text-xl">
-            {"All bugs of " + project.name || "Bugs"}
-          </h1>
+        <div className="pt-5">
+          <span>
+            <h1 className="pb-5 font-bold text-xl flex gap-5">
+              {"All bugs of " + project.name || "Bugs"}
+              <button
+                className="px-2 text-slate-800 bg-slate-200 rounded border-r-slate-200 hover:cursor-pointer"
+              >
+                Add
+              </button>
+            </h1>
+          </span>
 
           <ul className="grid  grid-cols-2 gap-5 ">
             {bugs.map((bug, index) => {
@@ -70,7 +77,9 @@ export default function Project() {
                   classes="border-4 border-indigo-300 text-indigo-900 bg-indigo-300 hover:border-indigo-200"
                 >
                   <h1 className="flex gap-1 text-lg">
-                    <strong>[BUG]</strong>
+                    <strong className="px-1 bg-indigo-200 border-2 border-indigo-200 rounded">
+                      [BUG]
+                    </strong>
                     <i className="overflow-hidden text-ellipsis font-semibold">
                       “{bug.name}"
                     </i>
@@ -83,7 +92,7 @@ export default function Project() {
               );
             })}
           </ul>
-        </>
+        </div>
       )}
     </div>
   );
