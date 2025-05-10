@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import "./App.css";
 import NavBar from "./components/Navbar";
+import { handlEnglisheWordingForMultiples } from "./helpers.js";
 
 function App() {
   const [projects, setProjects] = useState([]);
@@ -40,11 +41,9 @@ function App() {
           {projects.map((project, index) => {
             return (
               <Link key={index} to={`/project/${project.id}`}>
-                <li className="w-2xs p-2 border-2 outline-slate-400 rounded-2xl bg-slate-100 text-slate-900">
-                  <div className="font-bold">{project.name}</div>
-                  {project._count.bugs >= 1
-                    ? `${project._count.bugs} bug(s)`
-                    : project._count.bugs}
+                <li className="w-2xs  p-2 shadow-md  rounded-2xl bg-yellow-100 text-yellow-900">
+                  <div className="font-bold pb-1">{project.name}</div>
+                  {handlEnglisheWordingForMultiples("bug", project._count.bugs)}
                 </li>
               </Link>
             );
