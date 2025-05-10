@@ -9,16 +9,16 @@ export default function NavBar() {
   };
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between text-slate-700">
       <Link
         to="/home"
-        className="rounded-md px-2 bg-slate-200 text-slate-800 font-bold hover:cursor-pointer"
+        className="rounded-md px-2 bg-slate-200 font-bold hover:cursor-pointer"
       >
         Home
       </Link>
 
       <button
-        className="rounded-md px-2 bg-slate-200 text-slate-800 font-bold hover:cursor-pointer"
+        className="rounded-md px-2 bg-slate-200 font-bold hover:cursor-pointer"
         onClick={handleClick}
       >
         Log Out
