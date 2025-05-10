@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./App.css";
 import NavBar from "./components/Navbar";
@@ -39,12 +39,14 @@ function App() {
         <ul className="flex gap-2 flex-wrap">
           {projects.map((project, index) => {
             return (
-              <li key={index} className="w-2xs p-2 border rounded-lg">
-                <div className="font-bold">{project.name}</div>
-                {project._count.bugs >= 1
-                  ? `${project._count.bugs} bug(s)`
-                  : project._count.bugs}
-              </li>
+              <Link key={index} to={`/project/${project.id}`}>
+                <li className="w-2xs p-2 border-2 outline-slate-400 rounded-2xl bg-slate-100 text-slate-900">
+                  <div className="font-bold">{project.name}</div>
+                  {project._count.bugs >= 1
+                    ? `${project._count.bugs} bug(s)`
+                    : project._count.bugs}
+                </li>
+              </Link>
             );
           })}
         </ul>
