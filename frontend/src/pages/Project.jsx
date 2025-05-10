@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
+
 import Card from "../components/Card";
 import NavBar from "../components/Navbar";
+import Modal from "../components/Modal";
 
 export default function Project() {
   const [project, setProject] = useState({});
   const [bugs, setBugs] = useState([]);
+  const [newBug, setNewBug] = useState({ name: "", description: "" });
 
   const params = useParams();
   const bugsUrl = `http://localhost:3000/project/${params.projectId}/bugs`;
@@ -47,6 +50,17 @@ export default function Project() {
       });
   }, [bugsUrl]);
 
+  const sendBugRequest = async () => {
+    await axios
+      .post(bugsUrl, newBug, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+      .then((response) => console.log(response.status));
+  };
+
   return (
     <div className="container">
       <NavBar />
@@ -61,11 +75,68 @@ export default function Project() {
           <span>
             <h1 className="pb-5 font-bold text-xl flex gap-5">
               {"All bugs of " + project.name || "Bugs"}
-              <button
-                className="px-2 text-slate-800 bg-slate-200 rounded border-r-slate-200 hover:cursor-pointer"
+              <Modal
+                openBtnTitle="Add a Bug"
+                openBtnClasses="px-2 text-slate-800 bg-slate-200 rounded border-r-slate-200 hover:cursor-pointer"
+                modalTitle={`Add a new bug to "${project.name}"`}
+                modalTitleClasses="text-xl"
               >
-                Add
-              </button>
+                {({ closeModal }) => (
+                  <>
+                    <div className="flex flex-col gap-5 pt-3 pb-5">
+                      <div
+                        id="bug-name-container"
+                        className="flex flex-col gap-2"
+                      >
+                        <label htmlFor="bugName" className="font-medium">
+                          Name:
+                        </label>
+                        <input
+                          type="text"
+                          id="bugName"
+                          className="p-2 rounded bg-slate-200"
+                          value={newBug.name}
+                          onChange={(e) => {
+                            setNewBug({ ...newBug, name: e.target.value });
+                          }}
+                        />
+                      </div>
+
+                      <div
+                        id="bug-description-container"
+                        className="flex flex-col gap-2"
+                      >
+                        <label htmlFor="bugDescription" className="font-medium">
+                          Description:
+                        </label>
+                        <textarea
+                          id="bugDescription"
+                          className="p-2 rounded bg-slate-200"
+                          value={newBug.description}
+                          onChange={(e) => {
+                            setNewBug({
+                              ...newBug,
+                              description: e.target.value,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end">
+                      <button
+                        className="px-3 rounded bg-green-200 text-green-900 font-bold hover:cursor-pointer"
+                        onClick={() => {
+                          sendBugRequest();
+                          closeModal();
+                        }}
+                      >
+                        Add Bug
+                      </button>
+                    </div>
+                  </>
+                )}
+              </Modal>
             </h1>
           </span>
 
