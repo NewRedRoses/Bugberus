@@ -7,6 +7,7 @@ import App from "./App.jsx";
 import Login from "./pages/Login.jsx";
 import Index from "./pages/Index.jsx";
 import Signup from "./pages/Signup.jsx";
+import Project from "./pages/Project.jsx";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "home",
     element: <App />,
+  },
+  {
+    path: "/project/:projectId",
+    element: <Project />,
   },
 ]);
 
