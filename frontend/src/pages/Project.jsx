@@ -9,7 +9,7 @@ export default function Project() {
   const [bugs, setBugs] = useState([]);
 
   const params = useParams();
-  const fetchBugsUrl = `http://localhost:3000/project/${params.projectId}/bugs`;
+  const bugsUrl = `http://localhost:3000/project/${params.projectId}/bugs`;
   const fetchProjectUrl = `http://localhost:3000/project/${params.projectId}`;
   const token = localStorage.getItem("JWT");
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function Project() {
       });
 
     axios
-      .get(fetchBugsUrl, {
+      .get(bugsUrl, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -45,7 +45,7 @@ export default function Project() {
           navigate("/login");
         }
       });
-  }, [fetchBugsUrl]);
+  }, [bugsUrl]);
 
   return (
     <div className="container">
