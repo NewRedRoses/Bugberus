@@ -10,6 +10,6 @@ const {
 
 projectRouter.get("/:projectId", verifyToken, fetchProjectDetails);
 projectRouter.get("/:projectId/bugs", verifyToken, fetchProjectBugs);
-projectRouter.post("/:projectId/bugs/new", verifyToken, createProjectBug);
+projectRouter.post("/:projectId/bugs", verifyToken, createProjectBug);
 
 module.exports = projectRouter;
