@@ -36,7 +36,7 @@ function App() {
 
       <div className="container flex flex-col justify-center items-center">
         <h1 className="pb-3 text-xl font-bold ">Projects</h1>
-        <ul className="flex gap-2 flex-wrap">
+        <ul className="flex gap-2 flex-wrap gap-2">
           {projects.map((project, index) => {
             return (
               <Link key={index} to={`/project/${project.id}`}>
