@@ -65,11 +65,15 @@ export default function Project() {
           <ul className="grid  grid-cols-2 gap-5 ">
             {bugs.map((bug, index) => {
               return (
-                <Card key={index}>
+                <Card
+                  key={index}
+                  classes="border-4 border-indigo-300 text-indigo-900 bg-indigo-300 hover:border-indigo-200"
+                >
                   <h1 className="flex gap-1 text-lg">
-                    <span className="overflow-hidden text-ellipsis font-semibold">
-                      {bug.name}
-                    </span>
+                    <strong>[BUG]</strong>
+                    <i className="overflow-hidden text-ellipsis font-semibold">
+                      “{bug.name}"
+                    </i>
                   </h1>
                   <span>
                     Created: {new Date(bug.createdAt).toLocaleDateString()}
