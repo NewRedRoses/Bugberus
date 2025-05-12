@@ -9,15 +9,20 @@ const fetchProjectDetails = (req, res) => {
       res.sendStatus(403);
     } else {
       const projectId = parseInt(req.params.projectId);
-      const project = await prisma.project.findFirst({
-        where: {
-          id: projectId,
-        },
-      });
-      if (project) {
-        res.json(project);
+
+      if (Number.isInteger(projectId)) {
+        const project = await prisma.project.findFirst({
+          where: {
+            id: projectId,
+          },
+        });
+        if (project) {
+          res.json(project);
+        } else {
+          res.sendStatus(404);
+        }
       } else {
-        res.sendStatus(404);
+        res.sendStatus(400);
       }
     }
   });
@@ -30,12 +35,16 @@ const fetchProjectBugs = (req, res) => {
     } else {
       const projectId = parseInt(req.params.projectId);
 
-      const bugs = await prisma.bug.findMany({
-        where: {
-          projectId,
-        },
-      });
-      res.json(bugs);
+      if (Number.isInteger(projectId)) {
+        const bugs = await prisma.bug.findMany({
+          where: {
+            projectId,
+          },
+        });
+        res.json(bugs);
+      } else {
+        res.sendStatus(400);
+      }
     }
   });
 };
@@ -46,19 +55,24 @@ const createProjectBug = (req, res) => {
       res.sendStatus(403);
     } else {
       const projectId = parseInt(req.params.projectId);
-      const { name, description } = req.body;
 
-      const newBug = await prisma.bug.create({
-        data: {
-          name,
-          description,
-          projectId,
-        },
-      });
-      if (newBug) {
-        res.sendStatus(200);
+      if (Number.isInteger(projectId)) {
+        const { name, description } = req.body;
+
+        const newBug = await prisma.bug.create({
+          data: {
+            name,
+            description,
+            projectId,
+          },
+        });
+        if (newBug) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(500);
+        }
       } else {
-        res.sendStatus(500);
+        res.sendStatus(400);
       }
     }
   });
