@@ -28,6 +28,28 @@ const fetchProjectDetails = (req, res) => {
   });
 };
 
+const createProject = (req, res) => {
+  jwt.verify(req.token, process.env.SECRET, async (error, authData) => {
+    if (error) {
+      res.sendStatus(403);
+    } else {
+      const { name } = req.body;
+
+      try {
+        await prisma.project.create({
+          data: {
+            name: name,
+            ownerId: authData.user.id,
+          },
+        });
+        res.sendStatus(200);
+      } catch (err) {
+        res.sendStatus(500);
+      }
+    }
+  });
+};
+
 const fetchProjectBugs = (req, res) => {
   jwt.verify(req.token, process.env.SECRET, async (error, authData) => {
     if (error) {
@@ -78,4 +100,9 @@ const createProjectBug = (req, res) => {
   });
 };
 
-module.exports = { fetchProjectDetails, fetchProjectBugs, createProjectBug };
+module.exports = {
+  fetchProjectDetails,
+  createProject,
+  fetchProjectBugs,
+  createProjectBug,
+};
