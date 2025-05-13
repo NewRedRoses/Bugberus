@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/Navbar";
 import { handlEnglisheWordingForMultiples } from "./helpers.js";
+import Button from "./components/Button.jsx";
 
 function App() {
   const [projects, setProjects] = useState([]);
@@ -31,12 +32,19 @@ function App() {
       });
   }, [projectsUrl]);
 
+  const handleAddProject = () => {
+    console.log("test from parent");
+  };
+
   return (
     <>
       <NavBar />
 
       <div className="container flex flex-col justify-center items-center">
-        <h1 className="pb-3 text-xl font-bold ">Projects</h1>
+        <span className="flex gap-4 align-center">
+          <h1 className="pb-3 text-xl font-bold ">Projects</h1>
+          <Button onClick={handleAddProject}>Add</Button>
+        </span>
         <ul className="flex gap-2 flex-wrap gap-2">
           {projects.map((project, index) => {
             return (
