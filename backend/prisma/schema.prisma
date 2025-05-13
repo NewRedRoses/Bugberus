@@ -20,22 +20,29 @@ model User {
   password String
   email    String    @db.VarChar(255)
   projects Project[]
+  createdAt   DateTime  @default(now())
+  modifiedAt  DateTime?
+  deletedAt   DateTime?
 }
 
 model Project {
-  id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(50)
-  bugs      Bug[]
-  createdAt DateTime @default(now())
-  ownerId   Int
-  owner     User     @relation(fields: [ownerId], references: [id])
+  id      Int    @id @default(autoincrement())
+  name    String @db.VarChar(50)
+  bugs    Bug[]
+  ownerId Int
+  owner   User   @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime  @default(now())
+  modifiedAt  DateTime?
+  deletedAt   DateTime?
 }
 
 model Bug {
-  id          Int      @id @default(autoincrement())
-  name        String   @db.VarChar(50)
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(50)
   description String?
   projectId   Int
-  project     Project  @relation(fields: [projectId], references: [id])
-  createdAt   DateTime @default(now())
+  project     Project   @relation(fields: [projectId], references: [id])
+  createdAt   DateTime  @default(now())
+  modifiedAt  DateTime?
+  deletedAt   DateTime?
 }
