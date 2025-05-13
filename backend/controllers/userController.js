@@ -30,7 +30,7 @@ const fetchUserProjects = (req, res) => {
     } else {
       const projects = await prisma.project.findMany({
         where: {
-          ownerId: authData.id,
+          ownerId: authData.user.id,
         },
         select: {
           id: true,
