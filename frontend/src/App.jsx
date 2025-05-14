@@ -57,8 +57,8 @@ function App() {
     <>
       <NavBar />
 
-      <div className="container flex flex-col items-center justify-center">
-        <span className="align-center flex gap-4">
+      <div className="container flex flex-col pt-5">
+        <span className="align-center flex content-center gap-4">
           <h1 className="pb-3 text-xl font-bold">Projects</h1>
 
           <Modal
@@ -86,7 +86,7 @@ function App() {
           {projects.map((project, index) => {
             return (
               <Link key={index} to={`/project/${project.id}`}>
-                <li className="w-2xs rounded-2xl bg-yellow-100 p-2 text-yellow-900 shadow-md">
+                <li className="w-2xs rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-900 shadow-md">
                   <div className="pb-1 font-bold">{project.name}</div>
                   {handlEnglisheWordingForMultiples("bug", project._count.bugs)}
                 </li>
