@@ -78,8 +78,7 @@ export default function Project() {
               {"All bugs of " + project.name || "Bugs"}
 
               <Modal
-                openBtnTitle="Add a Bug"
-                openBtnClasses="px-2 text-slate-800 bg-slate-200 rounded border-r-slate-200 hover:cursor-pointer"
+                openBtnTitle="Add Bug"
                 modalTitle={`Add a new bug to "${project.name}"`}
                 modalTitleClasses="text-xl"
                 isModalOpen={isModalOpen}
