@@ -9,6 +9,7 @@ import {
 
 export default function Modal({
   openBtnTitle = "Open",
+  openBtnClasses = "px-1 rounded border hover:cursor-pointer",
   modalTitle = "Title",
   modalTitleClasses,
   isModalOpen,
