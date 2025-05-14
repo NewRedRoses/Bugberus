@@ -11,6 +11,7 @@ import Modal from "./components/Modal.jsx";
 function App() {
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({ name: "" });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const projectsUrl = "http://localhost:3000/user/projects";
   const createProjectUrl = "http://localhost:3000/project";
@@ -45,7 +46,8 @@ function App() {
         if (response.status == 200) {
           // TODO: Change to proper notification later
           alert("Post created successfully");
-          // Close modal
+          setNewProject({ name: "" });
+          setIsModalOpen(false);
         }
       })
       .catch((error) => console.log(error));
@@ -59,7 +61,12 @@ function App() {
         <span className="align-center flex gap-4">
           <h1 className="pb-3 text-xl font-bold">Projects</h1>
 
-          <Modal openBtnTitle="Add" modalTitle="Create a new project">
+          <Modal
+            openBtnTitle="Add"
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            modalTitle="Create a new project"
+          >
             <div className="flex flex-col">
               <label htmlFor="newProjectBtn">Project Name:</label>
               <input

@@ -10,6 +10,7 @@ export default function Project() {
   const [project, setProject] = useState({});
   const [bugs, setBugs] = useState([]);
   const [newBug, setNewBug] = useState({ name: "", description: "" });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const params = useParams();
   const bugsUrl = `http://localhost:3000/project/${params.projectId}/bugs`;
@@ -67,80 +68,81 @@ export default function Project() {
 
       {project == 404 ? (
         <>
-          <h1 className="pb-3 font-bold text-xl">Error 404:</h1>
+          <h1 className="pb-3 text-xl font-bold">Error 404:</h1>
           <p>The project you are looking for does not exist!</p>
         </>
       ) : (
         <div className="pt-5">
           <span>
-            <h1 className="pb-5 font-bold text-xl flex gap-5">
+            <h1 className="flex gap-5 pb-5 text-xl font-bold">
               {"All bugs of " + project.name || "Bugs"}
+
               <Modal
                 openBtnTitle="Add a Bug"
                 openBtnClasses="px-2 text-slate-800 bg-slate-200 rounded border-r-slate-200 hover:cursor-pointer"
                 modalTitle={`Add a new bug to "${project.name}"`}
                 modalTitleClasses="text-xl"
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
               >
-                {({ closeModal }) => (
-                  <>
-                    <div className="flex flex-col gap-5 pt-3 pb-5">
-                      <div
-                        id="bug-name-container"
-                        className="flex flex-col gap-2"
-                      >
-                        <label htmlFor="bugName" className="font-medium">
-                          Name:
-                        </label>
-                        <input
-                          type="text"
-                          id="bugName"
-                          className="p-2 rounded bg-slate-200"
-                          value={newBug.name}
-                          onChange={(e) => {
-                            setNewBug({ ...newBug, name: e.target.value });
-                          }}
-                        />
-                      </div>
-
-                      <div
-                        id="bug-description-container"
-                        className="flex flex-col gap-2"
-                      >
-                        <label htmlFor="bugDescription" className="font-medium">
-                          Description:
-                        </label>
-                        <textarea
-                          id="bugDescription"
-                          className="p-2 rounded bg-slate-200"
-                          value={newBug.description}
-                          onChange={(e) => {
-                            setNewBug({
-                              ...newBug,
-                              description: e.target.value,
-                            });
-                          }}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex justify-end">
-                      <button
-                        className="px-3 rounded bg-green-200 text-green-900 font-bold hover:cursor-pointer"
-                        onClick={() => {
-                          sendBugRequest();
-                          closeModal();
+                <>
+                  <div className="flex flex-col gap-5 pt-3 pb-5">
+                    <div
+                      id="bug-name-container"
+                      className="flex flex-col gap-2"
+                    >
+                      <label htmlFor="bugName" className="font-medium">
+                        Name:
+                      </label>
+                      <input
+                        type="text"
+                        id="bugName"
+                        className="rounded bg-slate-200 p-2"
+                        value={newBug.name}
+                        onChange={(e) => {
+                          setNewBug({ ...newBug, name: e.target.value });
                         }}
-                      >
-                        Add Bug
-                      </button>
+                      />
                     </div>
-                  </>
-                )}
+
+                    <div
+                      id="bug-description-container"
+                      className="flex flex-col gap-2"
+                    >
+                      <label htmlFor="bugDescription" className="font-medium">
+                        Description:
+                      </label>
+                      <textarea
+                        id="bugDescription"
+                        className="rounded bg-slate-200 p-2"
+                        value={newBug.description}
+                        onChange={(e) => {
+                          setNewBug({
+                            ...newBug,
+                            description: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end">
+                    <button
+                      className="rounded bg-green-200 px-3 font-bold text-green-900 hover:cursor-pointer"
+                      onClick={() => {
+                        sendBugRequest();
+                        setIsModalOpen(false);
+                      }}
+                    >
+                      Add Bug
+                    </button>
+                  </div>
+                </>
               </Modal>
             </h1>
           </span>
 
-          <ul className="grid  grid-cols-2 gap-5 ">
+          <ul className="grid grid-cols-2 gap-5">
             {bugs.map((bug, index) => {
               return (
                 <Card
@@ -148,10 +150,10 @@ export default function Project() {
                   classes="border-4 border-indigo-300 text-indigo-900 bg-indigo-300 hover:border-indigo-200"
                 >
                   <h1 className="flex gap-1 text-lg">
-                    <strong className="px-1 bg-indigo-200 border-2 border-indigo-200 rounded">
+                    <strong className="rounded border-2 border-indigo-200 bg-indigo-200 px-1">
                       [BUG]
                     </strong>
-                    <i className="overflow-hidden text-ellipsis font-semibold">
+                    <i className="overflow-hidden font-semibold text-ellipsis">
                       “{bug.name}"
                     </i>
                   </h1>
