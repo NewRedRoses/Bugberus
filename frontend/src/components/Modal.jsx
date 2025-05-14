@@ -5,11 +5,12 @@ import {
   DialogBackdrop,
 } from "@headlessui/react";
 
+import Button from "./Button";
+
 // Inspo: https://headlessui.com/react/dialog
 
 export default function Modal({
   openBtnTitle = "Open",
-  openBtnClasses = "px-1 rounded border hover:cursor-pointer",
   modalTitle = "Title",
   modalTitleClasses,
   isModalOpen,
@@ -18,9 +19,7 @@ export default function Modal({
 }) {
   return (
     <>
-      <button onClick={() => setIsModalOpen(true)} className={openBtnClasses}>
-        {openBtnTitle}
-      </button>
+      <Button onClick={() => setIsModalOpen(true)}>{openBtnTitle}</Button>
       <Dialog
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -31,13 +30,12 @@ export default function Modal({
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
           <DialogPanel className="max-w-xl space-y-4 rounded bg-slate-100 p-12">
             <div className="flex justify-end pb-2">
-              <button
-                id="close-modal-btn"
+              <Button
                 className="rounded bg-slate-300 px-2 font-bold text-slate-800 hover:cursor-pointer"
                 onClick={() => setIsModalOpen(false)}
               >
                 Close
-              </button>
+              </Button>
             </div>
 
             <DialogTitle className={`font-bold ${modalTitleClasses}`}>
