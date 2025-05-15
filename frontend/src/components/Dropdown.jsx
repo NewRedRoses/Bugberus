@@ -7,7 +7,6 @@ export default function Dropdown({
   menuBtnClasses,
   menuItems,
   anchor = "bottom",
-  onClick,
 }) {
   return (
     <Menu>
@@ -25,7 +24,7 @@ export default function Dropdown({
                 "px-2 hover:cursor-pointer data-focus:bg-slate-200"
               }
             >
-              <button type="" onClick={onClick}>
+              <button type="" onClick={menuItem.function}>
                 {menuItem.name}
               </button>
             </MenuItem>
