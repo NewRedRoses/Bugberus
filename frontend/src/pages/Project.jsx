@@ -229,7 +229,7 @@ export default function Project() {
                   <span>
                     Created: {new Date(bug.createdAt).toLocaleDateString()}
                   </span>
-                  <p></p>
+                  <p className="pt-3">{bug.description || ""}</p>
                 </Card>
               );
             })}
