@@ -8,10 +8,12 @@ const {
   createProjectBug,
   createProject,
   deleteProject,
+  renameProject,
 } = require("../controllers/projectController.js");
 
 projectRouter.post("/", verifyToken, createProject);
 projectRouter.get("/:projectId", verifyToken, fetchProjectDetails);
+projectRouter.patch("/:projectId", verifyToken, renameProject);
 projectRouter.delete("/:projectId", verifyToken, deleteProject);
 
 projectRouter.get("/:projectId/bugs", verifyToken, fetchProjectBugs);

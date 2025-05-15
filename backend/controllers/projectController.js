@@ -50,6 +50,33 @@ const createProject = (req, res) => {
   });
 };
 
+const renameProject = (req, res) => {
+  jwt.verify(req.token, process.env.SECRET, async (error, authData) => {
+    if (error) {
+      res.sendStatus(403);
+    } else {
+      const projectId = parseInt(req.params.projectId);
+      const { name } = req.body;
+
+      if (Number.isInteger(projectId)) {
+        const updatedProject = await prisma.project.update({
+          where: {
+            id: projectId,
+          },
+          data: {
+            name,
+          },
+        });
+
+        console.log(updatedProject);
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(500);
+      }
+    }
+  });
+};
+
 // Soft deletes project
 const deleteProject = (req, res) => {
   jwt.verify(req.token, process.env.SECRET, async (error, authData) => {
@@ -135,4 +162,5 @@ module.exports = {
   deleteProject,
   fetchProjectBugs,
   createProjectBug,
+  renameProject,
 };
