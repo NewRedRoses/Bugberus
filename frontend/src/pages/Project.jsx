@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { EllipsisVertical } from "lucide-react";
 
 import Card from "../components/Card";
 import NavBar from "../components/Navbar";
 import Modal from "../components/Modal";
+import Dropdown from "../components/Dropdown";
 
 export default function Project() {
   const [project, setProject] = useState({});
@@ -14,13 +16,20 @@ export default function Project() {
 
   const params = useParams();
   const bugsUrl = `http://localhost:3000/project/${params.projectId}/bugs`;
-  const fetchProjectUrl = `http://localhost:3000/project/${params.projectId}`;
+  const projectUrl = `http://localhost:3000/project/${params.projectId}`;
   const token = localStorage.getItem("JWT");
   const navigate = useNavigate();
 
+  const projectActions = [
+    {
+      name: "Delete",
+      classNames: "px-2 hover:cursor-pointer rounded bg-red-200 text-red-900",
+    },
+  ];
+
   useEffect(() => {
     axios
-      .get(fetchProjectUrl, {
+      .get(projectUrl, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -62,6 +71,25 @@ export default function Project() {
       .then((response) => console.log(response.status));
   };
 
+  const handleProjectDelete = () => {
+    const isProjectDeleteConfirmed = confirm(
+      "Are you sure you would like to delete this project?",
+    );
+    if (isProjectDeleteConfirmed) {
+      axios
+        .delete(projectUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            // TODO: notify that project has been successfully deleted
+            console.log("project deleted");
+            navigate("/home");
+          }
+        });
+    }
+  };
+
   return (
     <div className="container">
       <NavBar />
@@ -73,10 +101,19 @@ export default function Project() {
         </>
       ) : (
         <div className="pt-5">
+          <h1 className="flex gap-5 pb-5 text-2xl font-bold">
+            <span>{project.name}</span>
+            <Dropdown
+              menuBtn={<EllipsisVertical />}
+              menuBtnClasses="hover:cursor-pointer"
+              menuItems={projectActions}
+              anchor="right"
+              onClick={handleProjectDelete}
+            />
+          </h1>
           <span>
-            <h1 className="flex gap-5 pb-5 text-xl font-bold">
-              {"All bugs of " + project.name || "Bugs"}
-
+            <h2 className="flex gap-5 pb-5 text-xl font-medium">
+              All project bugs
               <Modal
                 openBtnTitle="Add Bug"
                 modalTitle={`Add a new bug to "${project.name}"`}
@@ -138,7 +175,7 @@ export default function Project() {
                   </div>
                 </>
               </Modal>
-            </h1>
+            </h2>
           </span>
 
           <ul className="grid grid-cols-2 gap-5">
