@@ -31,6 +31,9 @@ const fetchUserProjects = (req, res) => {
       const projects = await prisma.project.findMany({
         where: {
           ownerId: authData.user.id,
+          deletedAt: {
+            equals: null,
+          },
         },
         select: {
           id: true,
