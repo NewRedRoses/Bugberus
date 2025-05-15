@@ -7,25 +7,20 @@ import Card from "../components/Card";
 import NavBar from "../components/Navbar";
 import Modal from "../components/Modal";
 import Dropdown from "../components/Dropdown";
+import Button from "../components/Button";
 
 export default function Project() {
   const [project, setProject] = useState({});
   const [bugs, setBugs] = useState([]);
   const [newBug, setNewBug] = useState({ name: "", description: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProjectBeingRenamed, setIsProjectBeingRenamed] = useState(false);
 
   const params = useParams();
   const bugsUrl = `http://localhost:3000/project/${params.projectId}/bugs`;
   const projectUrl = `http://localhost:3000/project/${params.projectId}`;
   const token = localStorage.getItem("JWT");
   const navigate = useNavigate();
-
-  const projectActions = [
-    {
-      name: "Delete",
-      classNames: "px-2 hover:cursor-pointer rounded bg-red-200 text-red-900",
-    },
-  ];
 
   useEffect(() => {
     axios
@@ -90,6 +85,32 @@ export default function Project() {
     }
   };
 
+  const handleProjectRename = () => {
+    setIsProjectBeingRenamed(true);
+  };
+
+  const updateProject = async () => {
+    await axios
+      .patch(
+        projectUrl,
+        { name: project.name },
+        { headers: { Authorization: `Bearer ${token}` } },
+      )
+      .then((response) => {
+        if (response.status == 200) {
+          setIsProjectBeingRenamed(false);
+        }
+      });
+  };
+
+  const projectActions = [
+    { name: "Rename", function: handleProjectRename },
+    {
+      name: "Delete",
+      classNames: "px-2 hover:cursor-pointer rounded bg-red-200 text-red-900",
+      function: handleProjectDelete,
+    },
+  ];
   return (
     <div className="container">
       <NavBar />
@@ -102,13 +123,25 @@ export default function Project() {
       ) : (
         <div className="pt-5">
           <h1 className="flex gap-5 pb-5 text-2xl font-bold">
-            <span>{project.name}</span>
+            {isProjectBeingRenamed ? (
+              <>
+                <input
+                  value={project.name}
+                  className="w-fit rounded border border-slate-400 p-1"
+                  onChange={(e) => {
+                    setProject({ ...project, name: e.target.value });
+                  }}
+                />
+                <Button onClick={updateProject}>Save</Button>
+              </>
+            ) : (
+              <span>{project.name}</span>
+            )}
             <Dropdown
               menuBtn={<EllipsisVertical />}
               menuBtnClasses="hover:cursor-pointer"
               menuItems={projectActions}
               anchor="right"
-              onClick={handleProjectDelete}
             />
           </h1>
           <span>
