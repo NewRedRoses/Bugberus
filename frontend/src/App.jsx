@@ -88,7 +88,7 @@ function App() {
               <Link key={index} to={`/project/${project.id}`}>
                 <li className="w-2xs rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-900 shadow-md">
                   <div className="pb-1 font-bold">{project.name}</div>
-                  {handlEnglisheWordingForMultiples("bug", project._count.bugs)}
+                  {/* {handlEnglisheWordingForMultiples("bug", project._count.bugs)} */}
                 </li>
               </Link>
             );

@@ -39,11 +39,6 @@ const fetchUserProjects = (req, res) => {
           id: true,
           name: true,
           createdAt: true,
-          _count: {
-            select: {
-              bugs: true,
-            },
-          },
         },
       });
       res.json(projects);
