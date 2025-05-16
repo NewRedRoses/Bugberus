@@ -9,14 +9,14 @@ export default function Bug({ bug }) {
   const [newBug, setNewBug] = useState(bug);
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
 
-  const bugToRenameUrl = `http://localhost:3000/bug/${bug.id}`;
+  const bugUrl = `http://localhost:3000/bug/${bug.id}`;
 
   const token = localStorage.getItem("JWT");
 
   const handleSubmit = async () => {
     await axios
       .patch(
-        bugToRenameUrl,
+        bugUrl,
         { name: newBug.name },
         { headers: { Authorization: `Bearer ${token}` } },
       )
@@ -29,12 +29,27 @@ export default function Bug({ bug }) {
       });
   };
 
+  const handleBugDelete = async () => {
+    await axios
+      .delete(bugUrl, { headers: { Authorization: `Bearer ${token}` } })
+      .then((response) => {
+        if (response.status == 200) {
+          // TODO: implement notify
+          console.log("Bug has been deleted successfully");
+        }
+      });
+  };
+
   const bugActions = [
     {
       name: "Rename",
       function: async () => {
         setIsBugBeingRenamed(!isBugBeingRenamed);
       },
+    },
+    {
+      name: "Delete",
+      function: handleBugDelete,
     },
   ];
 
