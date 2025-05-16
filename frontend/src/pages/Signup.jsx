@@ -1,6 +1,11 @@
 import { useState } from "react";
-import NavLink from "../components/NavLink";
+import { useNavigate } from "react-router";
 import axios from "axios";
+
+import NavLink from "../components/NavLink";
+import Input from "../components/Input";
+import Button from "../components/Button";
+
 export default function Signup() {
   const backendUrl = "http://localhost:3000/auth/signup";
   const [formData, setFormData] = useState({
@@ -9,63 +14,70 @@ export default function Signup() {
     email: "",
   });
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    const data = await axios.post(backendUrl, formData, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
+    const data = await axios
+      .post(backendUrl, formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          // TODO: Notify here
+          alert("Account created successfully");
+          navigate("/login");
+        }
+      });
   };
   return (
-    <div className="container flex flex-col gap-5">
+    <div className="container flex flex-col items-center gap-5">
       <div className="flex flex-col">
-        <h1 className="text-3xl font-bold">Create an account</h1>
+        <h1 className="mb-5 text-3xl font-bold">Create an account</h1>
 
-        <div id="form" className="p-3 border flex flex-col gap-2">
-          <div id="username" className="w-md lflex flex-col">
-            <label htmlFor="username" className="pr-4">
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              value={formData.username}
-              onChange={(e) =>
-                setFormData({ ...formData, username: e.target.value })
-              }
-            />
-          </div>
+        <div
+          id="form"
+          className="mb-2 flex flex-col items-center gap-4 border p-3"
+        >
+          <Input
+            label="Username:"
+            id="username"
+            value={formData.username}
+            onChange={(e) => {
+              setFormData({ ...formData, username: e.target.value });
+            }}
+          />
           <div id="password" className="flex flex-col">
-            <label htmlFor="password" className="pr-4">
-              Password
-            </label>
-            <input
+            <Input
+              label="Password:"
               type="password"
               id="password"
               value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
+              onChange={(e) => {
+                setFormData({ ...formData, password: e.target.value });
+              }}
             />
           </div>
           <div id="email" className="flex flex-col">
-            <label htmlFor="email" className="pr-4">
-              Email
-            </label>
-            <input
+            <Input
+              label="Email:"
               type="email"
               id="email"
               value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
+              onChange={(e) => {
+                setFormData({ ...formData, email: e.target.value });
+              }}
             />
           </div>
-          <button className="px-1 border rounded h-fit " onClick={handleSubmit}>
+          <Button
+            onClick={handleSubmit}
+            classNames="p-1 mt-3 rounded bg-slate-700 text-slate-100 font-bold border px-4 hover:cursor-pointer "
+          >
             Sign Up
-          </button>
+          </Button>
         </div>
       </div>
       <div className="">
