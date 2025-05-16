@@ -117,6 +117,9 @@ const fetchProjectBugs = (req, res) => {
         const bugs = await prisma.bug.findMany({
           where: {
             projectId,
+            deletedAt: {
+              equals: null,
+            },
           },
         });
         res.json(bugs);
