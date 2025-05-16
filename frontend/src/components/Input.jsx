@@ -1,10 +1,10 @@
 export default function Input({
   label,
   name,
-  type,
+  type = "text",
   onChange,
   value,
-  inputClassNames = "w-1/3 rounded border",
+  inputClassNames = "rounded border",
 }) {
   return (
     <div className="flex flex-col gap-2">
