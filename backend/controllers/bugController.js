@@ -36,4 +36,29 @@ const fetchBug = (req, res) => {
   });
 };
 
-module.exports = { fetchBug };
+const renameBug = (req, res) => {
+  jwt.verify(req.token, process.env.SECRET, async (error, authData) => {
+    if (error) {
+      res.sendStatus(403);
+    } else {
+      const bugId = parseInt(req.params.bugId);
+      const { name } = req.body;
+
+      if (Number.isInteger(bugId)) {
+        const renamedBug = await prisma.bug.update({
+          where: {
+            id: bugId,
+          },
+          data: {
+            name,
+          },
+        });
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(500);
+      }
+    }
+  });
+};
+
+module.exports = { fetchBug, renameBug };
