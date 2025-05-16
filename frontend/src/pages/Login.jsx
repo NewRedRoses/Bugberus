@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import NavLink from "../components/NavLink";
 import Input from "../components/Input";
 import Button from "../components/Button.jsx";
+
 export default function Login() {
   const backendUrl = "http://localhost:3000/auth/login";
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -35,25 +36,26 @@ export default function Login() {
       });
   };
   return (
-    <div className="container flex flex-col gap-5">
+    <div className="container flex flex-col items-center gap-5">
       <div className="flex flex-col">
         <h1 className="text-3xl font-bold">Login</h1>
 
         {error != false && (
           <div
             id="error"
-            className="w-1/2 flex justify-center items-center border p-2 rounded bg-red-200 border-red-700 font-bold text-red-900"
+            className="flex items-center justify-center rounded border border-red-700 bg-red-200 p-2 font-bold text-red-900"
           >
             Incorrect username or password
           </div>
         )}
 
-        <div id="form">
+        <div id="form" className="mt-5 flex flex-col gap-4 pb-5">
           <Input
             type="text"
             id="username"
             value={formData.username}
             label="Username:"
+            inputClassNames="px-2 border rounded"
             onChange={(e) => {
               setFormData({ ...formData, username: e.target.value });
             }}
@@ -64,7 +66,7 @@ export default function Login() {
             id="password"
             value={formData.password}
             label="Password:"
-            className="w-1/3 rounded border"
+            inputClassNames="px-2 border rounded"
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
@@ -72,13 +74,13 @@ export default function Login() {
         </div>
 
         <Button
-          classNames="w-1/3 p-1 rounded bg-slate-600 text-slate-100 font-bold border px-1 hover:cursor-pointer "
+          classNames=" p-1 rounded bg-slate-700 text-slate-100 font-bold border px-1 hover:cursor-pointer "
           onClick={handleSubmit}
         >
           Log In
         </Button>
       </div>
-      <div className="">
+      <div className="pt-3">
         <span className="pr-2">Don't have an account?</span>
         <NavLink text="Create an account!" link="/signup" />
       </div>
