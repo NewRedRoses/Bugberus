@@ -3,17 +3,14 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { EllipsisVertical } from "lucide-react";
 
-import Card from "../components/Card";
 import NavBar from "../components/Navbar";
-import Modal from "../components/Modal";
 import Dropdown from "../components/Dropdown";
 import Button from "../components/Button";
+import ProjectBugs from "../components/ProjectBugs";
 
 export default function Project() {
   const [project, setProject] = useState({});
   const [bugs, setBugs] = useState([]);
-  const [newBug, setNewBug] = useState({ name: "", description: "" });
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProjectBeingRenamed, setIsProjectBeingRenamed] = useState(false);
 
   const params = useParams();
@@ -54,17 +51,6 @@ export default function Project() {
         }
       });
   }, [bugsUrl]);
-
-  const sendBugRequest = async () => {
-    await axios
-      .post(bugsUrl, newBug, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      })
-      .then((response) => console.log(response.status));
-  };
 
   const handleProjectDelete = () => {
     const isProjectDeleteConfirmed = confirm(
@@ -144,96 +130,12 @@ export default function Project() {
               anchor="right"
             />
           </h1>
-          <span>
-            <h2 className="flex gap-5 pb-5 text-xl font-medium">
-              All project bugs
-              <Modal
-                openBtnTitle="Add Bug"
-                modalTitle={`Add a new bug to "${project.name}"`}
-                modalTitleClasses="text-xl"
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}
-              >
-                <>
-                  <div className="flex flex-col gap-5 pt-3 pb-5">
-                    <div
-                      id="bug-name-container"
-                      className="flex flex-col gap-2"
-                    >
-                      <label htmlFor="bugName" className="font-medium">
-                        Name:
-                      </label>
-                      <input
-                        type="text"
-                        id="bugName"
-                        className="rounded bg-slate-200 p-2"
-                        value={newBug.name}
-                        onChange={(e) => {
-                          setNewBug({ ...newBug, name: e.target.value });
-                        }}
-                      />
-                    </div>
-
-                    <div
-                      id="bug-description-container"
-                      className="flex flex-col gap-2"
-                    >
-                      <label htmlFor="bugDescription" className="font-medium">
-                        Description:
-                      </label>
-                      <textarea
-                        id="bugDescription"
-                        className="rounded bg-slate-200 p-2"
-                        value={newBug.description}
-                        onChange={(e) => {
-                          setNewBug({
-                            ...newBug,
-                            description: e.target.value,
-                          });
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end">
-                    <button
-                      className="rounded bg-green-200 px-3 font-bold text-green-900 hover:cursor-pointer"
-                      onClick={() => {
-                        sendBugRequest();
-                        setIsModalOpen(false);
-                      }}
-                    >
-                      Add Bug
-                    </button>
-                  </div>
-                </>
-              </Modal>
-            </h2>
-          </span>
-
-          <ul className="grid grid-cols-2 gap-5">
-            {bugs.map((bug, index) => {
-              return (
-                <Card
-                  key={index}
-                  classes="border-4 border-indigo-300 text-indigo-900 bg-indigo-300 hover:border-indigo-200"
-                >
-                  <h1 className="flex gap-1 text-lg">
-                    <strong className="rounded border-2 border-indigo-200 bg-indigo-200 px-1">
-                      [BUG]
-                    </strong>
-                    <i className="overflow-hidden font-semibold text-ellipsis">
-                      “{bug.name}"
-                    </i>
-                  </h1>
-                  <span>
-                    Created: {new Date(bug.createdAt).toLocaleDateString()}
-                  </span>
-                  <p className="pt-3">{bug.description || ""}</p>
-                </Card>
-              );
-            })}
-          </ul>
+          <ProjectBugs
+            project={project}
+            bugs={bugs}
+            bugsUrl={bugsUrl}
+            params={params}
+          />
         </div>
       )}
     </div>
