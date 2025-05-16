@@ -1,3 +1,4 @@
+import { useState } from "react";
 import axios from "axios";
 import { EllipsisVertical } from "lucide-react";
 
@@ -5,25 +6,34 @@ import Card from "../components/Card";
 import Dropdown from "../components/Dropdown";
 
 export default function Bug({ bug }) {
+  const [newBug, setNewBug] = useState(bug);
+  const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
+
   const bugToRenameUrl = `http://localhost:3000/bug/${bug.id}`;
 
   const token = localStorage.getItem("JWT");
+
+  const handleSubmit = async () => {
+    await axios
+      .patch(
+        bugToRenameUrl,
+        { name: newBug.name },
+        { headers: { Authorization: `Bearer ${token}` } },
+      )
+      .then((response) => {
+        if (response.status == 200) {
+          // TODO: implement notify
+          console.log("Bug has been renamed successfully");
+          setIsBugBeingRenamed(false);
+        }
+      });
+  };
 
   const bugActions = [
     {
       name: "Rename",
       function: async () => {
-        await axios
-          .patch(
-            bugToRenameUrl,
-            { name: "testy testy test" },
-            { headers: { Authorization: `Bearer ${token}` } },
-          )
-          .then((response) => {
-            if (response.status == 200) {
-              console.log("Bug has been renamed successfully");
-            }
-          });
+        setIsBugBeingRenamed(!isBugBeingRenamed);
       },
     },
   ];
@@ -38,9 +48,26 @@ export default function Bug({ bug }) {
           <strong className="rounded border-2 border-indigo-200 bg-indigo-200 px-1">
             [BUG]
           </strong>
-          <span className="overflow-hidden font-semibold text-ellipsis">
-            {bug.name}
-          </span>
+          {isBugBeingRenamed ? (
+            <>
+              <input
+                type="text"
+                value={newBug.name}
+                className="w-1/2 rounded border px-1 font-semibold"
+                onChange={(e) => setNewBug({ ...newBug, name: e.target.value })}
+              />
+              <button
+                className="rounded border-1 bg-indigo-300 px-1 text-sm"
+                onClick={handleSubmit}
+              >
+                Done
+              </button>
+            </>
+          ) : (
+            <span className="overflow-hidden font-semibold text-ellipsis">
+              {bug.name}
+            </span>
+          )}
         </h1>
         <Dropdown
           menuBtn={<EllipsisVertical />}
