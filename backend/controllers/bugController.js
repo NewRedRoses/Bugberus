@@ -61,4 +61,45 @@ const renameBug = (req, res) => {
   });
 };
 
-module.exports = { fetchBug, renameBug };
+const deleteBug = (req, res) => {
+  jwt.verify(req.token, process.env.SECRET, async (error, authData) => {
+    if (error) {
+      res.sendStatus(403);
+    } else {
+      const bugId = parseInt(req.params.bugId);
+
+      if (Number.isInteger(bugId)) {
+        const bug = await prisma.bug.findFirst({
+          where: {
+            id: bugId,
+          },
+          select: {
+            project: {
+              select: {
+                ownerId: true,
+              },
+            },
+          },
+        });
+
+        if (bug.project.ownerId == authData.user.id) {
+          const bugToDelete = await prisma.bug.update({
+            where: {
+              id: bugId,
+            },
+            data: {
+              deletedAt: new Date(),
+            },
+          });
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(403);
+        }
+      } else {
+        res.sendStatus(500);
+      }
+    }
+  });
+};
+
+module.exports = { fetchBug, renameBug, deleteBug };
