@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import NavLink from "../components/NavLink";
 import Input from "../components/Input";
+import Button from "../components/Button.jsx";
 export default function Login() {
   const backendUrl = "http://localhost:3000/auth/login";
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -70,9 +71,12 @@ export default function Login() {
           />
         </div>
 
-        <button className="px-1 border rounded h-fit " onClick={handleSubmit}>
+        <Button
+          classNames="w-1/3 p-1 rounded bg-slate-600 text-slate-100 font-bold border px-1 hover:cursor-pointer "
+          onClick={handleSubmit}
+        >
           Log In
-        </button>
+        </Button>
       </div>
       <div className="">
         <span className="pr-2">Don't have an account?</span>
