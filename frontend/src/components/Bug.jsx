@@ -65,7 +65,7 @@ export default function Bug({ bug }) {
             </>
           ) : (
             <span className="overflow-hidden font-semibold text-ellipsis">
-              {bug.name}
+              {newBug.name}
             </span>
           )}
         </h1>
