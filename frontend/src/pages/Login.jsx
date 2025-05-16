@@ -1,8 +1,9 @@
 import { useState } from "react";
-import NavLink from "../components/NavLink";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import NavLink from "../components/NavLink";
+import Input from "../components/Input";
 export default function Login() {
   const backendUrl = "http://localhost:3000/auth/login";
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -47,21 +48,22 @@ export default function Login() {
         )}
 
         <div id="form">
-          <label htmlFor="username">Username</label>
-          <input
+          <Input
             type="text"
             id="username"
             value={formData.username}
-            onChange={(e) =>
-              setFormData({ ...formData, username: e.target.value })
-            }
+            label="Username:"
+            onChange={(e) => {
+              setFormData({ ...formData, username: e.target.value });
+            }}
           />
 
-          <label htmlFor="password">Password</label>
-          <input
+          <Input
             type="password"
             id="password"
             value={formData.password}
+            label="Password:"
+            className="w-1/3 rounded border"
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
