@@ -4,10 +4,12 @@ import { EllipsisVertical } from "lucide-react";
 
 import Card from "../components/Card";
 import Dropdown from "../components/Dropdown";
+import Selection from "./Selection";
 
 export default function Bug({ bug }) {
   const [newBug, setNewBug] = useState(bug);
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
+  const [bugStatus, setBugStatus] = useState(bug.status);
 
   const bugUrl = `http://localhost:3000/bug/${bug.id}`;
 
@@ -16,7 +18,6 @@ export default function Bug({ bug }) {
   const handleBugRename = async () => {
     await axios
       .patch(
-        bugUrl,
         bugUrl + "/rename",
         { name: newBug.name },
         { headers: { Authorization: `Bearer ${token}` } },
@@ -41,6 +42,16 @@ export default function Bug({ bug }) {
       });
   };
 
+  const handleBugStatusChange = async (e) => {
+    await axios.patch(
+      bugUrl + "/status",
+      { status: e.target.value },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+  };
+
   const bugActions = [
     {
       name: "Rename",
@@ -51,6 +62,18 @@ export default function Bug({ bug }) {
     {
       name: "Delete",
       function: handleBugDelete,
+    },
+  ];
+
+  const bugStatusOptions = [
+    {
+      value: "UNDEFINED",
+      label: "Not Started",
+    },
+    { value: "STARTED", label: "In Progress" },
+    {
+      value: "FINISHED",
+      label: "Completed",
     },
   ];
 
@@ -94,6 +117,20 @@ export default function Bug({ bug }) {
       </div>
       <span>Created: {new Date(bug.createdAt).toLocaleDateString()}</span>
       <p className="pt-3">{bug.description || ""}</p>
+
+      <div className="flex justify-end pt-4 pb-2">
+        <Selection
+          value={bugStatus}
+          onChange={(e) => {
+            handleBugStatusChange(e);
+            setBugStatus(e.target.value);
+          }}
+          options={bugStatusOptions}
+          name="status"
+          ariaLabel="Bug accomplishment status"
+          selectionClasses="px-1 p-1 bg-indigo-400 text-indigo-900  font-semibold rounded-3xl hover:cursor-pointer"
+        />
+      </div>
     </Card>
   );
 }
