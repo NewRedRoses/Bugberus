@@ -18,7 +18,6 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     const data = await axios
       .post(backendUrl, formData, {
         headers: {
@@ -27,8 +26,6 @@ export default function Signup() {
       })
       .then((response) => {
         if (response.status == 200) {
-          // TODO: Notify here
-          alert("Account created successfully");
           navigate("/login");
         }
       });
