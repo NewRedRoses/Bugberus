@@ -13,10 +13,11 @@ export default function Bug({ bug }) {
 
   const token = localStorage.getItem("JWT");
 
-  const handleSubmit = async () => {
+  const handleBugRename = async () => {
     await axios
       .patch(
         bugUrl,
+        bugUrl + "/rename",
         { name: newBug.name },
         { headers: { Authorization: `Bearer ${token}` } },
       )
@@ -73,7 +74,7 @@ export default function Bug({ bug }) {
               />
               <button
                 className="rounded border-1 bg-indigo-300 px-1 text-sm"
-                onClick={handleSubmit}
+                onClick={handleBugRename}
               >
                 Done
               </button>
