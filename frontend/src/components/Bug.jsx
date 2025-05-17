@@ -80,7 +80,7 @@ export default function Bug({ bug }) {
   return (
     <Card
       key={bug.id}
-      classes="border-4 border-indigo-300 text-indigo-900 bg-indigo-300 hover:border-indigo-200"
+      classes="border-4 border-indigo-300 text-indigo-900 bg-indigo-300 hover:border-indigo-200 shadow"
     >
       <div className="flex justify-between">
         <h1 className="flex gap-1 text-lg">
@@ -128,7 +128,7 @@ export default function Bug({ bug }) {
           options={bugStatusOptions}
           name="status"
           ariaLabel="Bug accomplishment status"
-          selectionClasses="px-1 p-1 bg-indigo-400 text-indigo-900  font-semibold rounded-3xl hover:cursor-pointer"
+          selectionClasses="px-2  bg-indigo-400 text-indigo-900  font-semibold rounded-3xl hover:cursor-pointer"
         />
       </div>
     </Card>
