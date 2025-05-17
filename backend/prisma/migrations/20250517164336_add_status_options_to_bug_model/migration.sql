@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "Status" AS ENUM ('UNDEFINED', 'STARTED', 'FINISHED');
+
+-- AlterTable
+ALTER TABLE "Bug" ADD COLUMN     "status" "Status" NOT NULL DEFAULT 'UNDEFINED';
