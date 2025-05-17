@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 import NavLink from "../components/NavLink";
 import Input from "../components/Input";
@@ -31,23 +32,15 @@ export default function Login() {
         }
       })
       .catch((error) => {
-        setError(true);
+        toast.error("Incorrect username or password.");
         console.log(error);
       });
   };
   return (
     <div className="container flex flex-col items-center gap-5">
+      <ToastContainer />
       <div className="flex flex-col">
         <h1 className="text-3xl font-bold">Login</h1>
-
-        {error != false && (
-          <div
-            id="error"
-            className="flex items-center justify-center rounded border border-red-700 bg-red-200 p-2 font-bold text-red-900"
-          >
-            Incorrect username or password
-          </div>
-        )}
 
         <div id="form" className="mt-5 flex flex-col gap-4 pb-5">
           <Input

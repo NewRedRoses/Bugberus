@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 import "./App.css";
 import NavBar from "./components/Navbar";
@@ -44,13 +45,12 @@ function App() {
       })
       .then((response) => {
         if (response.status == 200) {
-          // TODO: Change to proper notification later
-          alert("Post created successfully");
+          toast.success("Post created successfully.");
           setNewProject({ name: "" });
           setIsModalOpen(false);
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => toast.error("Error creating project."));
   };
 
   return (
@@ -58,6 +58,7 @@ function App() {
       <NavBar />
 
       <div className="container flex flex-col pt-5">
+        <ToastContainer />
         <span className="align-center flex content-center gap-4">
           <h1 className="pb-3 text-xl font-bold">Projects</h1>
 
