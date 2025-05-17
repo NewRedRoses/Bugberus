@@ -87,7 +87,7 @@ const signupPost = async (req, res) => {
       res.sendStatus(404);
     }
   } else {
-    console.log("one of the items is empty");
+    res.sendStatus(500);
   }
 };
 
