@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import NavLink from "../components/NavLink";
 import Input from "../components/Input";
@@ -33,12 +33,10 @@ export default function Login() {
       })
       .catch((error) => {
         toast.error("Incorrect username or password.");
-        console.log(error);
       });
   };
   return (
     <div className="container flex flex-col items-center gap-5">
-      <ToastContainer />
       <div className="flex flex-col">
         <h1 className="text-3xl font-bold">Login</h1>
 

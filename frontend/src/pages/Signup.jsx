@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import NavLink from "../components/NavLink";
 import Input from "../components/Input";
@@ -27,14 +27,16 @@ export default function Signup() {
       })
       .then((response) => {
         if (response.status == 200) {
+          toast.success("Account created successfully");
           navigate("/login");
         }
       })
-      .catch((error) => toast.error("Error creating new user"));
+      .catch((error) =>
+        toast.error("Error creating account. Please ensure form is complete."),
+      );
   };
   return (
     <div className="container flex flex-col items-center gap-5">
-      <ToastContainer />
       <div className="flex flex-col">
         <h1 className="mb-5 text-3xl font-bold">Create an account</h1>
 

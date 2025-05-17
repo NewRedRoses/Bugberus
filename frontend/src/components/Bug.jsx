@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { EllipsisVertical } from "lucide-react";
+import { toast } from "react-toastify";
 
 import Card from "../components/Card";
 import Dropdown from "../components/Dropdown";
@@ -24,11 +25,11 @@ export default function Bug({ bug }) {
       )
       .then((response) => {
         if (response.status == 200) {
-          // TODO: implement notify
-          console.log("Bug has been renamed successfully");
+          toast.success("Bug has been renamed successfully.");
           setIsBugBeingRenamed(false);
         }
-      });
+      })
+      .catch((error) => toast.error("Error renaming bug. Please try again."));
   };
 
   const handleBugDelete = async () => {
@@ -36,10 +37,12 @@ export default function Bug({ bug }) {
       .delete(bugUrl, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         if (response.status == 200) {
-          // TODO: implement notify
-          console.log("Bug has been deleted successfully");
+          toast.success("Bug has been deleted succesfully.");
         }
-      });
+      })
+      .catch((error) =>
+        toast.error("Error deleting bug. Please try again later."),
+      );
   };
 
   const handleBugStatusChange = async (e) => {
@@ -61,6 +64,7 @@ export default function Bug({ bug }) {
     },
     {
       name: "Delete",
+      classNames: "bg-red-300 text-red-900 rounded hover:cursor-pointer",
       function: handleBugDelete,
     },
   ];

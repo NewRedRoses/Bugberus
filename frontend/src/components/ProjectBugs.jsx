@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import Bug from "../components/Bug.jsx";
 import Modal from "../components/Modal";
@@ -19,7 +20,12 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       })
-      .then((response) => console.log(response.status));
+      .then((response) => {
+        if (response.status == 200) {
+          toast.success("Bug has been added to project successfully.");
+        }
+      })
+      .catch((error) => toast.error("Failure creating bug. Please try again."));
   };
 
   return (

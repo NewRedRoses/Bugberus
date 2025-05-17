@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { EllipsisVertical } from "lucide-react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import NavBar from "../components/Navbar";
 import Dropdown from "../components/Dropdown";
@@ -64,6 +64,7 @@ export default function Project() {
         })
         .then((response) => {
           if (response.status == 200) {
+            toast.success("Project deleted successfully.");
             navigate("/home");
           }
         })
@@ -111,7 +112,6 @@ export default function Project() {
         </>
       ) : (
         <div className="pt-5">
-          <ToastContainer />
           <h1 className="flex gap-5 pb-5 text-2xl font-bold">
             {isProjectBeingRenamed ? (
               <>
