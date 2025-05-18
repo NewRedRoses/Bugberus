@@ -6,6 +6,7 @@ import { SquarePlus } from "lucide-react";
 import Bug from "../components/Bug.jsx";
 import Modal from "../components/Modal";
 import Button from "../components/Button";
+import Input from "../components/Input";
 
 export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
@@ -46,14 +47,10 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
           <>
             <div className="flex flex-col gap-5 pt-3 pb-5">
               <div id="bug-name-container" className="flex flex-col gap-2">
-                <label htmlFor="bugName" className="font-medium">
-                  Name:
-                </label>
-                <input
-                  type="text"
-                  id="bugName"
+                <Input
                   className="rounded bg-slate-200 p-2"
                   value={newBug.name}
+                  label="Bug Name"
                   onChange={(e) => {
                     setNewBug({ ...newBug, name: e.target.value });
                   }}

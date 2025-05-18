@@ -7,6 +7,7 @@ import "./App.css";
 import { handlEnglisheWordingForMultiples } from "./helpers.js";
 import Button from "./components/Button.jsx";
 import Modal from "./components/Modal.jsx";
+import Input from "./components/Input.jsx";
 
 function App() {
   const [projects, setProjects] = useState([]);
@@ -65,11 +66,8 @@ function App() {
             modalTitle="Create a new project"
           >
             <div className="flex flex-col">
-              <label htmlFor="newProjectBtn">Project Name:</label>
-              <input
-                type=""
-                id="newProjectBtn"
-                className="mt-2 rounded border"
+              <Input
+                label="Project name"
                 value={newProject.name}
                 onChange={(e) =>
                   setNewProject({ ...newProject, name: e.target.value })
