@@ -91,7 +91,7 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
           </>
         </Modal>
       </div>
-      <ul className="grid grid-cols-2 gap-5">
+      <ul className="grid auto-rows-fr grid-cols-2 gap-5">
         {bugs.map((bug) => {
           return (
             <li key={bug.id}>
