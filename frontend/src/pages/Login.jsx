@@ -45,7 +45,7 @@ export default function Login() {
             type="text"
             id="username"
             value={formData.username}
-            label="Username:"
+            label="Username"
             inputClassNames="px-2 border rounded"
             onChange={(e) => {
               setFormData({ ...formData, username: e.target.value });
@@ -56,7 +56,7 @@ export default function Login() {
             type="password"
             id="password"
             value={formData.password}
-            label="Password:"
+            label="Password"
             inputClassNames="px-2 border rounded"
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })

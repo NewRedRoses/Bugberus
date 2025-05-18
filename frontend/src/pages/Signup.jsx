@@ -45,7 +45,7 @@ export default function Signup() {
           className="mb-2 flex flex-col items-center gap-4 border p-3"
         >
           <Input
-            label="Username:"
+            label="Username"
             id="username"
             value={formData.username}
             onChange={(e) => {
@@ -54,7 +54,7 @@ export default function Signup() {
           />
           <div id="password" className="flex flex-col">
             <Input
-              label="Password:"
+              label="Password"
               type="password"
               id="password"
               value={formData.password}
@@ -65,7 +65,7 @@ export default function Signup() {
           </div>
           <div id="email" className="flex flex-col">
             <Input
-              label="Email:"
+              label="Email"
               type="email"
               id="email"
               value={formData.email}
