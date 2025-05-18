@@ -11,7 +11,10 @@ export default function Button({ children, uiType, classNames, onClick }) {
       );
     case "custom":
       return (
-        <button className={classNames} onClick={onClick}>
+        <button
+          className={`hover:cursor-pointer ${classNames}`}
+          onClick={onClick}
+        >
           {children}
         </button>
       );
