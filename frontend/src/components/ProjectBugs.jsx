@@ -30,7 +30,7 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
 
   return (
     <>
-      <h2 className="flex gap-5 pb-5 text-xl font-medium">
+      <div className="mb-5 flex gap-5 text-xl font-medium">
         All project bugs
         <Modal
           openBtnTitle="Add Bug"
@@ -90,10 +90,14 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
             </div>
           </>
         </Modal>
-      </h2>
+      </div>
       <ul className="grid grid-cols-2 gap-5">
         {bugs.map((bug) => {
-          return <Bug key={bug.id} bug={bug} />;
+          return (
+            <li key={bug.id}>
+              <Bug bug={bug} />
+            </li>
+          );
         })}
       </ul>
     </>
