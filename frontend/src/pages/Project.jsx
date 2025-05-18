@@ -145,13 +145,15 @@ export default function Project() {
                 </div>
               </div>
             ) : (
-              <div className="flex gap-3">
+              <div className="flex gap-1">
                 <h1 className="text-3xl">{project.name}</h1>
-                <Dropdown
-                  menuBtn={<EllipsisVertical />}
-                  menuItems={projectActions}
-                  anchor="right"
-                />
+                <div className="flex pt-1">
+                  <Dropdown
+                    menuBtn={<EllipsisVertical />}
+                    menuItems={projectActions}
+                    anchor="right"
+                  />
+                </div>
               </div>
             )}
           </div>
