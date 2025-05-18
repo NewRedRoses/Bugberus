@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { House } from "lucide-react";
 
 import NavLink from "./NavLink.jsx";

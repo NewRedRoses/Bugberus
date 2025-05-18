@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router";
 import { EllipsisVertical, Trash2, TextCursorInput } from "lucide-react";
 import { toast } from "react-toastify";
 
