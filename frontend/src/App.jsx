@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
 import "./App.css";
-import NavBar from "./components/Navbar";
 import { handlEnglisheWordingForMultiples } from "./helpers.js";
 import Button from "./components/Button.jsx";
 import Modal from "./components/Modal.jsx";
@@ -55,8 +54,6 @@ function App() {
 
   return (
     <>
-      <NavBar />
-
       <div className="container flex flex-col pt-5">
         <span className="align-center flex content-center gap-4">
           <h1 className="pb-3 text-xl font-bold">Projects</h1>

@@ -4,7 +4,6 @@ import { useParams, useNavigate } from "react-router";
 import { EllipsisVertical, Trash2, TextCursorInput } from "lucide-react";
 import { toast } from "react-toastify";
 
-import NavBar from "../components/Navbar";
 import Dropdown from "../components/Dropdown";
 import Button from "../components/Button";
 import ProjectBugs from "../components/ProjectBugs";
@@ -109,8 +108,6 @@ export default function Project() {
   ];
   return (
     <div className="container">
-      <NavBar />
-
       {project == 404 ? (
         <>
           <h1 className="pb-3 text-xl font-bold">Error 404:</h1>
