@@ -5,6 +5,7 @@ import { SquarePlus } from "lucide-react";
 
 import Bug from "../components/Bug.jsx";
 import Modal from "../components/Modal";
+import Button from "../components/Button";
 
 export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
@@ -80,15 +81,16 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
             </div>
 
             <div className="flex justify-end">
-              <button
-                className="rounded bg-green-200 px-3 font-bold text-green-900 hover:cursor-pointer"
+              <Button
+                uiType="custom"
+                classNames="rounded bg-green-200 px-3 font-bold text-green-900 hover:cursor-pointer"
                 onClick={() => {
                   sendBugRequest();
                   setIsModalOpen(false);
                 }}
               >
                 Add Bug
-              </button>
+              </Button>
             </div>
           </>
         </Modal>
