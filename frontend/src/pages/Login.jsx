@@ -73,7 +73,7 @@ export default function Login() {
       </div>
       <div className="pt-3">
         <span className="pr-2">Don't have an account?</span>
-        <NavLink text="Create an account!" link="/signup" />
+        <NavLink to="/signup">Create an account!</NavLink>
       </div>
     </div>
   );

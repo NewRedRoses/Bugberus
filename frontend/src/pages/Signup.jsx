@@ -84,7 +84,7 @@ export default function Signup() {
       </div>
       <div className="">
         <span className="pr-2">Already have an account?</span>
-        <NavLink text="Log in" link="/login" />
+        <NavLink to="/login">Log In</NavLink>
       </div>
     </div>
   );
