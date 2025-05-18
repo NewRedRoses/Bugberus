@@ -55,8 +55,8 @@ function App() {
   return (
     <>
       <div className="container mt-10 flex flex-col px-10">
-        <span className="align-center flex content-center gap-4">
-          <h1 className="pb-3 text-3xl font-bold">Projects</h1>
+        <span className="flex items-center gap-4">
+          <h1 className="text-3xl font-bold">Projects</h1>
 
           <Modal
             openBtnTitle="Add"
