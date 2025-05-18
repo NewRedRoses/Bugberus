@@ -17,7 +17,7 @@ export default function Dropdown({
       <MenuItems
         anchor={anchor}
         transition
-        className={`flex origin-top flex-col gap-2 rounded-xl p-3 font-semibold shadow-lg transition duration-200 ease-out data-closed:scale-95 data-closed:opacity-0 ${dropdownClasses}`}
+        className={`flex origin-top flex-col gap-2 rounded-xl p-3 font-semibold shadow-lg transition duration-100 ease-out data-closed:scale-95 data-closed:opacity-0 ${dropdownClasses}`}
         as="div"
       >
         {menuItems.map((menuItem) => {
