@@ -12,6 +12,7 @@ import Button from "./Button";
 export default function Modal({
   openBtnTitle = "Open",
   openBtnClasses,
+  openBtnUiType,
   modalTitle = "Title",
   modalTitleClasses,
   isModalOpen,
@@ -22,8 +23,8 @@ export default function Modal({
     <>
       <Button
         onClick={() => setIsModalOpen(true)}
+        uiType={openBtnUiType}
         classNames={openBtnClasses}
-        uiType="custom"
       >
         {openBtnTitle}
       </Button>
