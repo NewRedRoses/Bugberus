@@ -66,6 +66,7 @@ export default function Login() {
 
         <Button
           classNames=" p-1 rounded bg-slate-700 text-slate-100 font-bold border px-1 hover:cursor-pointer "
+          uiType="custom"
           onClick={handleSubmit}
         >
           Log In

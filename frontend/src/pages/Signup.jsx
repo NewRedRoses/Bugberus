@@ -76,6 +76,7 @@ export default function Signup() {
           </div>
           <Button
             onClick={handleSubmit}
+            uiType="custom"
             classNames="p-1 mt-3 rounded bg-slate-700 text-slate-100 font-bold border px-4 hover:cursor-pointer "
           >
             Sign Up

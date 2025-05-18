@@ -130,12 +130,14 @@ export default function Project() {
                 <div className="flex items-center gap-2 text-lg">
                   <Button
                     onClick={updateProject}
+                    uiType="custom"
                     classNames=" text-emerald-50 bg-emerald-700 px-3 rounded-xl border-4 hover:border-emerald-800  border-transparent hover:cursor-pointer"
                   >
                     Save
                   </Button>
                   <Button
                     onClick={() => setIsProjectBeingRenamed(false)}
+                    uiType="custom"
                     classNames="text-slate-500  bg-slate-300 hover:border-slate-400  border-transparent px-3 rounded-xl border-4 hover:cursor-pointer"
                   >
                     Cancel
