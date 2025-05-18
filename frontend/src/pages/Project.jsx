@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, Trash2, TextCursorInput } from "lucide-react";
 import { toast } from "react-toastify";
 
 import NavBar from "../components/Navbar";
@@ -94,10 +94,16 @@ export default function Project() {
   };
 
   const projectActions = [
-    { name: "Rename", function: handleProjectRename },
+    {
+      name: "Rename",
+      classNames: "data-focus:bg-slate-300",
+      icon: TextCursorInput,
+      function: handleProjectRename,
+    },
     {
       name: "Delete",
-      classNames: "px-2 hover:cursor-pointer rounded bg-red-200 text-red-900",
+      icon: Trash2,
+      classNames: "bg-red-200 text-red-900",
       function: handleProjectDelete,
     },
   ];
