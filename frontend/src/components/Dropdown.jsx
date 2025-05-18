@@ -11,7 +11,9 @@ export default function Dropdown({
 }) {
   return (
     <Menu>
-      <MenuButton className={menuBtnClasses}>{menuBtn}</MenuButton>
+      <MenuButton className={`hover:cursor-pointer ${menuBtnClasses}`}>
+        {menuBtn}
+      </MenuButton>
       <MenuItems
         anchor={anchor}
         transition

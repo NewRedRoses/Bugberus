@@ -149,7 +149,6 @@ export default function Project() {
                 <h1 className="text-3xl">{project.name}</h1>
                 <Dropdown
                   menuBtn={<EllipsisVertical />}
-                  menuBtnClasses="hover:cursor-pointer"
                   menuItems={projectActions}
                   anchor="right"
                 />

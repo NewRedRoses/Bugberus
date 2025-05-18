@@ -114,7 +114,6 @@ export default function Bug({ bug }) {
         </h1>
         <Dropdown
           menuBtn={<EllipsisVertical />}
-          menuBtnClasses="hover:cursor-pointer"
           menuItems={bugActions}
           anchor="bottom"
           dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
