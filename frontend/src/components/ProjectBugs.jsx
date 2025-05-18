@@ -37,6 +37,7 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
         <Modal
           openBtnTitle={<SquarePlus />}
           openBtnClasses="hover:cursor-pointer"
+          openBtnUiType="custom"
           modalTitle={`Add a new bug to "${project.name}"`}
           modalTitleClasses="text-xl"
           isModalOpen={isModalOpen}
