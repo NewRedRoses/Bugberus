@@ -36,7 +36,7 @@ export default function Login() {
       });
   };
   return (
-    <div className="container flex flex-col items-center gap-5">
+    <div className="container mt-10 flex flex-col items-center gap-5 px-10">
       <div className="flex flex-col">
         <h1 className="text-3xl font-bold">Login</h1>
 

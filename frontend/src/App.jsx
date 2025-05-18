@@ -54,7 +54,7 @@ function App() {
 
   return (
     <>
-      <div className="container flex flex-col pt-5">
+      <div className="container mt-10 flex flex-col px-10">
         <span className="align-center flex content-center gap-4">
           <h1 className="pb-3 text-xl font-bold">Projects</h1>
 

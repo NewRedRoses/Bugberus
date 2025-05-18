@@ -109,12 +109,12 @@ export default function Project() {
   return (
     <div className="container">
       {project == 404 ? (
-        <>
+        <div className="px-10 pt-10">
           <h1 className="pb-3 text-xl font-bold">Error 404:</h1>
           <p>The project you are looking for does not exist!</p>
-        </>
+        </div>
       ) : (
-        <div className="pt-5">
+        <div className="mt-10 px-10">
           <h1 className="flex gap-5 pb-5 text-2xl font-bold">
             {isProjectBeingRenamed ? (
               <>
