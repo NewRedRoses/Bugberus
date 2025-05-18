@@ -11,6 +11,7 @@ import Button from "./Button";
 
 export default function Modal({
   openBtnTitle = "Open",
+  openBtnClasses,
   modalTitle = "Title",
   modalTitleClasses,
   isModalOpen,
@@ -19,7 +20,13 @@ export default function Modal({
 }) {
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)}>{openBtnTitle}</Button>
+      <Button
+        onClick={() => setIsModalOpen(true)}
+        classNames={openBtnClasses}
+        uiType="custom"
+      >
+        {openBtnTitle}
+      </Button>
       <Dialog
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { SquarePlus } from "lucide-react";
 
 import Bug from "../components/Bug.jsx";
 import Modal from "../components/Modal";
@@ -30,10 +31,11 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
 
   return (
     <>
-      <div className="mb-5 flex gap-5 text-xl font-medium">
-        All project bugs
+      <div className="mb-5 flex h-full gap-2 text-xl font-medium">
+        <span>All project bugs</span>
         <Modal
-          openBtnTitle="Add Bug"
+          openBtnTitle={<SquarePlus />}
+          openBtnClasses="hover:cursor-pointer"
           modalTitle={`Add a new bug to "${project.name}"`}
           modalTitleClasses="text-xl"
           isModalOpen={isModalOpen}
