@@ -14,8 +14,8 @@ export default function NavBar() {
 
   return (
     <div className="flex justify-between text-slate-700">
-      <NavLink to="/home" className="bg-transparent">
-        <House />
+      <NavLink to="/home">
+        <House className="flex self-center" />
       </NavLink>
 
       <Button onClick={handleLogout}>Log Out</Button>
