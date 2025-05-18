@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router";
-import { EllipsisVertical, Trash2, TextCursorInput } from "lucide-react";
+import { EllipsisVertical, Trash2, TextCursorInput, Save } from "lucide-react";
 import { toast } from "react-toastify";
 
 import Dropdown from "../components/Dropdown";
 import Button from "../components/Button";
 import ProjectBugs from "../components/ProjectBugs";
+import Input from "../components/Input";
 
 export default function Project() {
   const [project, setProject] = useState({});
@@ -114,29 +115,45 @@ export default function Project() {
           <p>The project you are looking for does not exist!</p>
         </div>
       ) : (
-        <div className="mt-10 px-10">
-          <h1 className="flex gap-5 pb-5 text-2xl font-bold">
+        <div className="container mt-10 px-10">
+          <div className="flex w-fit flex-wrap gap-2 pb-5 font-bold">
             {isProjectBeingRenamed ? (
-              <>
-                <input
+              <div className="flex flex-wrap items-center gap-4">
+                <Input
                   value={project.name}
-                  className="w-fit rounded border border-slate-400 p-1"
-                  onChange={(e) => {
-                    setProject({ ...project, name: e.target.value });
-                  }}
+                  className="w-2xs rounded border-1 border-slate-300 bg-slate-50 px-2 text-3xl"
+                  onChange={(e) =>
+                    setProject({ ...project, name: e.target.value })
+                  }
                 />
-                <Button onClick={updateProject}>Save</Button>
-              </>
+
+                <div className="flex items-center gap-2 text-lg">
+                  <Button
+                    onClick={updateProject}
+                    classNames=" text-emerald-50 bg-emerald-700 px-3 rounded-xl border-4 hover:border-emerald-800  border-transparent hover:cursor-pointer"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    onClick={() => setIsProjectBeingRenamed(false)}
+                    classNames="text-slate-500  bg-slate-300 hover:border-slate-400  border-transparent px-3 rounded-xl border-4 hover:cursor-pointer"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
             ) : (
-              <span>{project.name}</span>
+              <div className="flex gap-3">
+                <h1 className="text-3xl">{project.name}</h1>
+                <Dropdown
+                  menuBtn={<EllipsisVertical />}
+                  menuBtnClasses="hover:cursor-pointer"
+                  menuItems={projectActions}
+                  anchor="right"
+                />
+              </div>
             )}
-            <Dropdown
-              menuBtn={<EllipsisVertical />}
-              menuBtnClasses="hover:cursor-pointer"
-              menuItems={projectActions}
-              anchor="right"
-            />
-          </h1>
+          </div>
           <ProjectBugs
             project={project}
             bugs={bugs}
