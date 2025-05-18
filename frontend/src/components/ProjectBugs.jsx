@@ -33,7 +33,7 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
   return (
     <>
       <div className="mb-5 flex h-full gap-2 text-xl font-medium">
-        <span>All project bugs</span>
+        <span>All Bugs</span>
         <Modal
           openBtnTitle={<SquarePlus />}
           openBtnClasses="hover:cursor-pointer"
