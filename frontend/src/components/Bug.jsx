@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, TextCursorInput, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 import Card from "../components/Card";
@@ -58,13 +58,16 @@ export default function Bug({ bug }) {
   const bugActions = [
     {
       name: "Rename",
+      icon: TextCursorInput,
+      classNames: "data-focus:bg-indigo-300",
       function: async () => {
         setIsBugBeingRenamed(!isBugBeingRenamed);
       },
     },
     {
       name: "Delete",
-      classNames: "bg-red-300 text-red-900 rounded hover:cursor-pointer",
+      icon: Trash2,
+      classNames: "bg-red-300 text-red-900 data-focus:bg-red-400",
       function: handleBugDelete,
     },
   ];
@@ -117,6 +120,7 @@ export default function Bug({ bug }) {
           menuBtnClasses="hover:cursor-pointer"
           menuItems={bugActions}
           anchor="bottom"
+          dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
         />
       </div>
       <span>Created: {new Date(bug.createdAt).toLocaleDateString()}</span>
