@@ -120,7 +120,7 @@ export default function Bug({ bug }) {
         />
       </div>
       <span>Created: {new Date(bug.createdAt).toLocaleDateString()}</span>
-      <p className="pt-3">{bug.description || ""}</p>
+      {bug.description && <p className="pt-3">{bug.description}</p>}
 
       <div className="flex justify-end pt-4 pb-2">
         <Selection
