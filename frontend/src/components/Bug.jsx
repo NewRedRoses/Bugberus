@@ -88,7 +88,7 @@ export default function Bug({ bug }) {
     <Card classes="h-full border-4 border-indigo-300 text-indigo-900 bg-indigo-300 hover:border-indigo-200 shadow">
       <div className="flex justify-between">
         <h1 className="flex gap-1 text-lg">
-          <strong className="rounded border-2 border-indigo-200 bg-indigo-200 px-1">
+          <strong className="max-h-fit rounded bg-indigo-200 p-1 px-2">
             [BUG]
           </strong>
           {isBugBeingRenamed ? (

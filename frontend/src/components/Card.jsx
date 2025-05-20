@@ -1,3 +1,3 @@
 export default function Card({ children, classes }) {
-  return <div className={`p-4  py-1 rounded-md ${classes}`}>{children}</div>;
+  return <div className={`rounded-md p-4 ${classes}`}>{children}</div>;
 }
