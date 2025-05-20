@@ -23,9 +23,9 @@ export default function NavBar() {
   return (
     <>
       {shouldNavbarBeHidden(currentPath, routesWithoutNavbar) == false ? (
-        <div className="flex justify-between text-slate-700">
-          <NavLink to="/home">
-            <House className="flex self-center" />
+        <div className="container flex justify-between px-10 text-slate-700">
+          <NavLink to="/home" classNames="p-0">
+            <House className="" />
           </NavLink>
 
           <Button onClick={handleLogout}>Log Out</Button>
