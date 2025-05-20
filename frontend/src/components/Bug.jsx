@@ -87,7 +87,7 @@ export default function Bug({ bug }) {
   return (
     <Card classes="h-full border-4 border-indigo-300 text-indigo-900 bg-indigo-300 hover:border-indigo-200 shadow">
       <div className="flex justify-between">
-        <h1 className="flex gap-1 text-lg">
+        <h1 className="flex max-w-full gap-1 overflow-hidden text-lg">
           <strong className="max-h-fit rounded bg-indigo-200 p-1 px-2">
             [BUG]
           </strong>
@@ -107,7 +107,7 @@ export default function Bug({ bug }) {
               </button>
             </>
           ) : (
-            <span className="overflow-hidden font-semibold text-ellipsis">
+            <span className="max-w-full truncate font-semibold">
               {newBug.name}
             </span>
           )}
