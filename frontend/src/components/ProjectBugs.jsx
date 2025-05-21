@@ -1,12 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { SquarePlus } from "lucide-react";
+import { SquarePlus, Bug as BugLucide } from "lucide-react";
 
 import Bug from "../components/Bug.jsx";
 import Modal from "../components/Modal";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import NoContent from "../components/NoContent";
 
 export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
@@ -93,15 +94,19 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
           </>
         </Modal>
       </div>
-      <ul className="grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2">
-        {bugs.map((bug) => {
-          return (
-            <li key={bug.id}>
-              <Bug bug={bug} />
-            </li>
-          );
-        })}
-      </ul>
+      {bugs == null ? (
+        <NoContent Icon={BugLucide} message="No bugs tracked" />
+      ) : (
+        <ul className="grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2">
+          {bugs.map((bug) => {
+            return (
+              <li key={bug.id}>
+                <Bug bug={bug} />
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </>
   );
 }

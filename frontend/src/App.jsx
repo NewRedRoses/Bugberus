@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { FileWarning } from "lucide-react";
 
 import "./App.css";
 import { handlEnglisheWordingForMultiples } from "./helpers.js";
 import Button from "./components/Button.jsx";
 import Modal from "./components/Modal.jsx";
 import Input from "./components/Input.jsx";
+import NoContent from "./components/NoContent.jsx";
 
 function App() {
   const [projects, setProjects] = useState([]);
@@ -26,7 +28,11 @@ function App() {
       })
       .then((response) => {
         if (response.status == 200) {
-          setProjects(response.data);
+          if (response.data.length > 0) {
+            setProjects(response.data);
+          } else {
+            setProjects(null);
+          }
         }
       })
       .catch((error) => {
@@ -77,18 +83,22 @@ function App() {
             <Button onClick={handleAddProject}>Create</Button>
           </Modal>
         </span>
-        <ul className="flex flex-wrap gap-2">
-          {projects.map((project, index) => {
-            return (
-              <Link key={index} to={`/project/${project.id}`}>
-                <li className="w-2xs rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-900 shadow-md">
-                  <div className="pb-1 font-bold">{project.name}</div>
-                  {/* {handlEnglisheWordingForMultiples("bug", project._count.bugs)} */}
-                </li>
-              </Link>
-            );
-          })}
-        </ul>
+        {projects == null ? (
+          <NoContent Icon={FileWarning} message="No Projects" />
+        ) : (
+          <ul className="flex flex-wrap gap-2">
+            {projects.map((project, index) => {
+              return (
+                <Link key={index} to={`/project/${project.id}`}>
+                  <li className="w-2xs rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-900 shadow-md">
+                    <div className="pb-1 font-bold">{project.name}</div>
+                    {/* {handlEnglisheWordingForMultiples("bug", project._count.bugs)} */}
+                  </li>
+                </Link>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </>
   );

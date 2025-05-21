@@ -42,7 +42,11 @@ export default function Project() {
       })
       .then((response) => {
         if (response.status == 200) {
-          setBugs(response.data);
+          if (response.data.length > 0) {
+            setBugs(response.data);
+          } else {
+            setBugs(null);
+          }
         }
       })
       .catch((error) => {
