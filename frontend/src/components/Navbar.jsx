@@ -24,7 +24,7 @@ export default function NavBar() {
     <>
       {shouldNavbarBeHidden(currentPath, routesWithoutNavbar) == false ? (
         <div className="container flex justify-between px-10 text-slate-700">
-          <NavLink to="/home" classNames="p-0">
+          <NavLink to="/" classNames="p-0">
             <House className="" />
           </NavLink>
 

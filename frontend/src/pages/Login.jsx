@@ -26,7 +26,7 @@ export default function Login() {
       .then((response) => {
         if (response.status == 200) {
           localStorage.setItem("JWT", response.data.token);
-          navigate("/home");
+          navigate("/");
         } else {
           setError(true);
         }

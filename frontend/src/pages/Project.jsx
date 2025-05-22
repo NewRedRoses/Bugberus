@@ -75,7 +75,7 @@ export default function Project() {
         .then((response) => {
           if (response.status == 200) {
             toast.success("Project deleted successfully.");
-            navigate("/home");
+            navigate("/");
           }
         })
         .catch((error) => {

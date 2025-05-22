@@ -9,13 +9,13 @@ import NavBar from "../components/Navbar.jsx";
 
 export default function Index() {
   return (
-    <div className="container">
+    <div>
       <ToastContainer />
       <NavBar />
-      <Routes>
+      <Routes className="container">
+        <Route index path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/home" element={<App />} />
         <Route path="/project/:projectId" element={<Project />} />
       </Routes>
     </div>
