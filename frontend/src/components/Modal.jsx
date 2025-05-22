@@ -4,6 +4,7 @@ import {
   DialogTitle,
   DialogBackdrop,
 } from "@headlessui/react";
+import { X } from "lucide-react";
 
 import Button from "./Button";
 
@@ -39,10 +40,11 @@ export default function Modal({
           <DialogPanel className="max-w-xl space-y-4 rounded bg-slate-100 p-12">
             <div className="flex justify-end pb-2">
               <Button
-                className="rounded bg-slate-300 px-2 font-bold text-slate-800 hover:cursor-pointer"
+                classNames="text-red-800 hover:text-red-600 "
+                uiType="custom"
                 onClick={() => setIsModalOpen(false)}
               >
-                Close
+                <X />
               </Button>
             </div>
 
