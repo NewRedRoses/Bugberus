@@ -22,7 +22,7 @@ const fetchProjectDetails = (req, res) => {
           res.sendStatus(404);
         }
       } else {
-        res.sendStatus(400);
+        res.sendStatus(404);
       }
     }
   });
@@ -68,7 +68,6 @@ const renameProject = (req, res) => {
           },
         });
 
-        console.log(updatedProject);
         res.sendStatus(200);
       } else {
         res.sendStatus(500);
@@ -122,7 +121,11 @@ const fetchProjectBugs = (req, res) => {
             },
           },
         });
-        res.json(bugs);
+        if (bugs) {
+          res.json(bugs);
+        } else {
+          res.sendStatus(404);
+        }
       } else {
         res.sendStatus(400);
       }
