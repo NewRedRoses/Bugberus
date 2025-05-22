@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router";
-import { EllipsisVertical, Trash2, TextCursorInput, Save } from "lucide-react";
+import {
+  EllipsisVertical,
+  Trash2,
+  TextCursorInput,
+  CircleAlert,
+} from "lucide-react";
 import { toast } from "react-toastify";
 
 import Dropdown from "../components/Dropdown";
 import Button from "../components/Button";
 import ProjectBugs from "../components/ProjectBugs";
 import Input from "../components/Input";
+import NoContent from "../components/NoContent";
 
 export default function Project() {
   const [project, setProject] = useState({});
@@ -115,8 +121,11 @@ export default function Project() {
     <div className="container">
       {project == 404 ? (
         <div className="px-10 pt-10">
-          <h1 className="pb-3 text-3xl font-bold">Error 404:</h1>
-          <p>The project you are looking for does not exist!</p>
+          <NoContent
+            Icon={CircleAlert}
+            title="404: Error"
+            message="The Project you are looking for does not exist!"
+          />
         </div>
       ) : (
         <div className="container mt-10 px-10">
