@@ -37,7 +37,7 @@ export default function Modal({
         {/* For shadow backdrop  */}
         <DialogBackdrop className="fixed inset-0 bg-black/50" />
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-          <DialogPanel className="max-w-xl space-y-4 rounded bg-slate-100 p-12">
+          <DialogPanel className="max-w-xl space-y-4 rounded bg-slate-100 p-10">
             <div className="flex justify-end pb-2">
               <Button
                 classNames="text-red-800 hover:text-red-600 "
@@ -48,9 +48,11 @@ export default function Modal({
               </Button>
             </div>
 
-            <DialogTitle className={`font-bold ${modalTitleClasses}`}>
-              {modalTitle}
-            </DialogTitle>
+            <div className="mt-5">
+              <DialogTitle className={`font-bold ${modalTitleClasses}`}>
+                {modalTitle}
+              </DialogTitle>
+            </div>
             {children}
           </DialogPanel>
         </div>
