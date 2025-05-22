@@ -85,9 +85,9 @@ export default function Bug({ bug }) {
   ];
 
   return (
-    <Card classes="h-full border-4 border-indigo-300 text-indigo-900 bg-indigo-300 hover:border-indigo-200 shadow">
-      <div className="flex justify-between">
-        <h1 className="flex max-w-full gap-1 overflow-hidden text-lg">
+    <Card classes="flex flex-col h-full border-4 border-indigo-300 text-indigo-900 bg-indigo-300 shadow">
+      <div className="flex max-w-full justify-between">
+        <div className="flex items-center gap-2 text-lg">
           <strong className="max-h-fit rounded bg-indigo-200 p-1 px-2">
             [BUG]
           </strong>
@@ -107,11 +107,16 @@ export default function Bug({ bug }) {
               </button>
             </>
           ) : (
-            <span className="max-w-full truncate font-semibold">
-              {newBug.name}
-            </span>
+            <div className="">
+              <div className="max-w-[15ch] overflow-hidden font-semibold text-nowrap text-ellipsis">
+                {newBug.name}
+              </div>
+              <div className="text-sm font-normal">
+                {new Date(bug.createdAt).toLocaleDateString()}
+              </div>
+            </div>
           )}
-        </h1>
+        </div>
         <Dropdown
           menuBtn={<EllipsisVertical />}
           menuItems={bugActions}
@@ -119,10 +124,9 @@ export default function Bug({ bug }) {
           dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
         />
       </div>
-      <span>Created: {new Date(bug.createdAt).toLocaleDateString()}</span>
-      {bug.description && <p className="pt-3">{bug.description}</p>}
+      {bug.description && <p className="pt-3 font-medium">{bug.description}</p>}
 
-      <div className="flex justify-end pt-4 pb-2">
+      <div className="mt-auto flex items-end justify-end pt-4 pb-2">
         <Selection
           value={bugStatus}
           onChange={(e) => {
