@@ -79,10 +79,18 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
               </div>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-2">
+              <Button
+                uiType={"cancel"}
+                onClick={() => {
+                  setIsModalOpen(false);
+                }}
+              >
+                Cancel
+              </Button>
               <Button
                 uiType="custom"
-                classNames="rounded bg-green-200 px-3 font-bold text-green-900 hover:cursor-pointer"
+                classNames="rounded bg-indigo-300 p-1 px-3 font-bold text-indigo-800  hover:bg-indigo-900 hover:text-indigo-50"
                 onClick={() => {
                   sendBugRequest();
                   setIsModalOpen(false);

@@ -18,5 +18,14 @@ export default function Button({ children, uiType, classNames, onClick }) {
           {children}
         </button>
       );
+    case "cancel":
+      return (
+        <button
+          className={`rounded bg-rose-200 px-2 font-bold text-rose-900 hover:cursor-pointer hover:bg-rose-300 ${classNames}`}
+          onClick={onClick}
+        >
+          {children}
+        </button>
+      );
   }
 }
