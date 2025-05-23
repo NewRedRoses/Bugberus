@@ -51,6 +51,7 @@ const renameBug = (req, res) => {
           },
           data: {
             name,
+            modifiedAt: new Date(),
           },
         });
         res.sendStatus(200);
@@ -131,6 +132,7 @@ const changeBugStatus = (req, res) => {
             },
             data: {
               status,
+              modifiedAt: new Date(),
             },
           });
           res.sendStatus(200);

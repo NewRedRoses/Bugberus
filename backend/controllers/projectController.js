@@ -78,6 +78,7 @@ const renameProject = (req, res) => {
               },
               data: {
                 name,
+                modifiedAt: new Date(),
               },
             });
 
