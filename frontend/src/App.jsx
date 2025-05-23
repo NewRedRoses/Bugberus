@@ -83,7 +83,10 @@ function App() {
                   }
                 />
               </div>
-              <Button onClick={handleAddProject}>Create</Button>
+              <div className="mt-5 flex justify-end gap-2">
+                <Button uiType="cancel">Cancel</Button>
+                <Button onClick={handleAddProject}>Create</Button>
+              </div>
             </Modal>
           </span>
           {projects == null ? (
