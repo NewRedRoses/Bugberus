@@ -16,8 +16,13 @@ const fetchProjectDetails = (req, res) => {
             id: projectId,
           },
         });
+
         if (project) {
-          res.json(project);
+          if (project.ownerId == authData.user.id) {
+            res.json(project);
+          } else {
+            res.sendStatus(403);
+          }
         } else {
           res.sendStatus(404);
         }
@@ -59,16 +64,30 @@ const renameProject = (req, res) => {
       const { name } = req.body;
 
       if (Number.isInteger(projectId)) {
-        const updatedProject = await prisma.project.update({
+        const project = await prisma.project.findFirst({
           where: {
             id: projectId,
           },
-          data: {
-            name,
-          },
         });
 
-        res.sendStatus(200);
+        if (project) {
+          if (project.ownerId == authData.user.id) {
+            const updatedProject = await prisma.project.update({
+              where: {
+                id: projectId,
+              },
+              data: {
+                name,
+              },
+            });
+
+            res.sendStatus(200);
+          } else {
+            res.sendStatus(403);
+          }
+        } else {
+          res.sendStatus(404);
+        }
       } else {
         res.sendStatus(500);
       }
@@ -85,8 +104,14 @@ const deleteProject = (req, res) => {
       const projectId = parseInt(req.params.projectId);
 
       if (Number.isInteger(projectId)) {
-        try {
-          await prisma.project.update({
+        const project = await prisma.project.findFirst({
+          where: {
+            id: projectId,
+          },
+        });
+
+        if (project) {
+          const projectToDelete = await prisma.project.update({
             where: {
               id: projectId,
             },
@@ -95,8 +120,8 @@ const deleteProject = (req, res) => {
             },
           });
           res.sendStatus(200);
-        } catch (err) {
-          res.sendStatus(500);
+        } else {
+          res.sendStatus(404);
         }
       } else {
         res.sendStatus(400);
@@ -113,16 +138,26 @@ const fetchProjectBugs = (req, res) => {
       const projectId = parseInt(req.params.projectId);
 
       if (Number.isInteger(projectId)) {
-        const bugs = await prisma.bug.findMany({
+        const project = await prisma.project.findFirst({
           where: {
-            projectId,
-            deletedAt: {
-              equals: null,
-            },
+            id: projectId,
           },
         });
-        if (bugs) {
-          res.json(bugs);
+
+        if (project) {
+          if (project.ownerId == authData.user.id) {
+            const bugs = await prisma.bug.findMany({
+              where: {
+                projectId,
+                deletedAt: {
+                  equals: null,
+                },
+              },
+            });
+            res.json(bugs);
+          } else {
+            res.sendStatus(403);
+          }
         } else {
           res.sendStatus(404);
         }
