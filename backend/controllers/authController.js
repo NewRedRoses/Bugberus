@@ -75,14 +75,37 @@ const signupPost = async (req, res) => {
 
   if (username != "" && password != "" && email != "") {
     try {
-      const user = await prisma.user.create({
-        data: {
-          username,
-          password: await bcrypt.hash(password, 10),
-          email,
+      const userInDb = await prisma.user.findFirst({
+        where: {
+          OR: [
+            {
+              username: {
+                equals: username,
+              },
+            },
+            {
+              email: {
+                equals: email,
+              },
+            },
+          ],
         },
       });
-      res.sendStatus(200);
+
+      if (userInDb) {
+        res
+          .status(403)
+          .json({ message: "a user with those credentials already exists." });
+      } else {
+        const user = await prisma.user.create({
+          data: {
+            username,
+            password: await bcrypt.hash(password, 10),
+            email,
+          },
+        });
+        res.sendStatus(200);
+      }
     } catch (err) {
       res.sendStatus(404);
     }

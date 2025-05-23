@@ -31,9 +31,12 @@ export default function Signup() {
           navigate("/login");
         }
       })
-      .catch((error) =>
-        toast.error("Error creating account. Please ensure form is complete."),
-      );
+      .catch((error) => {
+        const { message } = error.response.data;
+        toast.error(
+          message || "Error creating account. Please ensure form is complete.",
+        );
+      });
   };
   return (
     <div className="container mt-10 flex flex-col items-center gap-5 px-10">
