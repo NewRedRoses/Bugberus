@@ -92,12 +92,12 @@ function App() {
           {projects == null ? (
             <NoContent Icon={FileWarning} message="No Projects" />
           ) : (
-            <ul className="flex flex-wrap gap-2">
+            <ul className="mt-4 flex flex-col justify-center gap-5 sm:flex-row sm:justify-start">
               {projects.map((project, index) => {
                 return (
                   <Link key={index} to={`/project/${project.id}`}>
-                    <li className="w-2xs rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-900 shadow-md">
-                      <div className="pb-1 font-bold">{project.name}</div>
+                    <li className="flex h-20 w-full items-center rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-700 ring-2 ring-yellow-300 sm:w-2xs">
+                      <div className="text-xl font-bold">{project.name}</div>
                       {/* {handlEnglisheWordingForMultiples("bug", project._count.bugs)} */}
                     </li>
                   </Link>

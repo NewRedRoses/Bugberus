@@ -95,7 +95,7 @@ export default function Bug({ bug }) {
   ];
 
   return (
-    <Card classes="flex flex-col h-65 border-4 border-indigo-300 text-indigo-900 bg-indigo-300 shadow">
+    <Card classes="flex flex-col h-full sm:h-65 border-4 border-indigo-300 text-indigo-900 bg-indigo-300 shadow">
       <div className="flex max-w-full justify-between">
         <div className="flex items-center gap-3 text-lg">
           <div className="max-h-fit rounded bg-indigo-400 p-1 px-1">
