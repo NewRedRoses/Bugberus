@@ -95,7 +95,7 @@ export default function Bug({ bug }) {
   ];
 
   return (
-    <Card classes="flex flex-col h-50 border-4 border-indigo-300 text-indigo-900 bg-indigo-300 shadow">
+    <Card classes="flex flex-col h-65 border-4 border-indigo-300 text-indigo-900 bg-indigo-300 shadow">
       <div className="flex max-w-full justify-between">
         <div className="flex items-center gap-3 text-lg">
           <div className="max-h-fit rounded bg-indigo-400 p-1 px-1">
@@ -144,7 +144,11 @@ export default function Bug({ bug }) {
           dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
         />
       </div>
-      {bug.description && <p className="pt-3 font-medium">{bug.description}</p>}
+      {bug.description && (
+        <p className="mt-2 max-h-30 overflow-auto font-medium">
+          {bug.description}
+        </p>
+      )}
 
       <div className="mt-auto flex items-end justify-end pt-4 pb-2">
         <Selection
