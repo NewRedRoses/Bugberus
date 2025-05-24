@@ -1,6 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
-import { EllipsisVertical, TextCursorInput, Trash2 } from "lucide-react";
+import {
+  EllipsisVertical,
+  TextCursorInput,
+  Trash2,
+  Bug as Buggy,
+} from "lucide-react";
 import { toast } from "react-toastify";
 
 import Card from "../components/Card";
@@ -90,27 +95,24 @@ export default function Bug({ bug }) {
   ];
 
   return (
-    <Card classes="flex flex-col h-full border-4 border-indigo-300 text-indigo-900 bg-indigo-300 shadow">
+    <Card classes="flex flex-col h-50 border-4 border-indigo-300 text-indigo-900 bg-indigo-300 shadow">
       <div className="flex max-w-full justify-between">
-        <div className="flex items-center gap-2 text-lg">
-          <strong className="max-h-fit rounded bg-indigo-200 p-1 px-2">
-            [BUG]
-          </strong>
+        <div className="flex items-center gap-3 text-lg">
+          <div className="max-h-fit rounded bg-indigo-400 p-1 px-1">
+            <Buggy size={30} />
+          </div>
           {isBugBeingRenamed ? (
-            <>
-              <input
-                type="text"
-                value={newBug.name}
-                className="w-1/2 rounded border px-1 font-semibold"
-                onChange={(e) => setNewBug({ ...newBug, name: e.target.value })}
-              />
-              <button
-                className="rounded border-1 bg-indigo-300 px-1 text-sm"
-                onClick={handleBugRename}
-              >
-                Done
-              </button>
-            </>
+            <div className="flex flex-col content-center justify-center gap-1">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newBug.name}
+                  className="w-1/2 border-b-2 font-semibold"
+                  onChange={(e) =>
+                    setNewBug({ ...newBug, name: e.target.value })
+                  }
+                />
+                <div>
                   <Button
                     classNames="rounded bg-indigo-900 px-2 text-sm font-bold text-indigo-50  hover:cursor-pointer"
                     uiType="custom"
