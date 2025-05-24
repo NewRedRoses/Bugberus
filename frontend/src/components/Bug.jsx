@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Card from "../components/Card";
 import Dropdown from "../components/Dropdown";
 import Selection from "./Selection";
+import Button from "./Button";
 
 export default function Bug({ bug }) {
   const [newBug, setNewBug] = useState(bug);
@@ -17,19 +18,23 @@ export default function Bug({ bug }) {
   const token = localStorage.getItem("JWT");
 
   const handleBugRename = async () => {
-    await axios
-      .patch(
-        bugUrl + "/rename",
-        { name: newBug.name },
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      .then((response) => {
-        if (response.status == 200) {
-          toast.success("Bug has been renamed successfully.");
-          setIsBugBeingRenamed(false);
-        }
-      })
-      .catch((error) => toast.error("Error renaming bug. Please try again."));
+    if (bug.name == newBug.name) {
+      setIsBugBeingRenamed(false);
+    } else {
+      await axios
+        .patch(
+          bugUrl + "/rename",
+          { name: newBug.name },
+          { headers: { Authorization: `Bearer ${token}` } },
+        )
+        .then((response) => {
+          if (response.status == 200) {
+            toast.success("Bug has been renamed successfully.");
+            setIsBugBeingRenamed(false);
+          }
+        })
+        .catch((error) => toast.error("Error renaming bug. Please try again."));
+    }
   };
 
   const handleBugDelete = async () => {
@@ -106,6 +111,19 @@ export default function Bug({ bug }) {
                 Done
               </button>
             </>
+                  <Button
+                    classNames="rounded bg-indigo-900 px-2 text-sm font-bold text-indigo-50  hover:cursor-pointer"
+                    uiType="custom"
+                    onClick={handleBugRename}
+                  >
+                    Done
+                  </Button>
+                </div>
+              </div>
+              <div className="text-sm font-normal">
+                {new Date(bug.createdAt).toLocaleDateString()}
+              </div>
+            </div>
           ) : (
             <div className="">
               <div className="max-w-[15ch] overflow-hidden font-semibold text-nowrap text-ellipsis">
