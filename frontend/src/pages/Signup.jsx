@@ -32,10 +32,10 @@ export default function Signup() {
         }
       })
       .catch((error) => {
-        const { message } = error.response.data;
-        toast.error(
-          message || "Error creating account. Please ensure form is complete.",
-        );
+        if (error.status == 422) {
+          const errorMessages = error.response.data;
+          toast.error(errorMessages[0].msg);
+        }
       });
   };
   return (

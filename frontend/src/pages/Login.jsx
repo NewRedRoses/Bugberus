@@ -32,7 +32,13 @@ export default function Login() {
         }
       })
       .catch((error) => {
-        toast.error("Incorrect username or password.");
+        if (error.status == 422) {
+          const errorMessages = error.response.data;
+
+          toast.error(errorMessages[0].msg);
+        } else if (error.status == 401) {
+          toast.error(error.response.data.msg);
+        }
       });
   };
   return (

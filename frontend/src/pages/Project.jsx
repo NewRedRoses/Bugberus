@@ -103,6 +103,12 @@ export default function Project() {
           setIsProjectBeingRenamed(false);
           toast.success("Project renamed successfully");
         }
+      })
+      .catch((error) => {
+        if (error.status == 422) {
+          const errorMessages = error.response.data;
+          toast.error(errorMessages[0].msg);
+        }
       });
   };
 

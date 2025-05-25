@@ -58,7 +58,12 @@ function App() {
           setIsModalOpen(false);
         }
       })
-      .catch((error) => toast.error("Error creating project."));
+      .catch((error) => {
+        if (error.status == 422) {
+          const errorMessages = error.response.data;
+          toast.error(errorMessages[0].msg);
+        }
+      });
   };
 
   return (

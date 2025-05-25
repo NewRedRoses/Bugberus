@@ -30,7 +30,13 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
           setIsModalOpen(false);
         }
       })
-      .catch((error) => toast.error("Failure creating bug. Please try again."));
+      .catch((error) => {
+        if (error.status == 422) {
+          const errorMessages = error.response.data;
+
+          toast.error(errorMessages[0].msg);
+        }
+      });
   };
 
   return (
