@@ -1,8 +1,8 @@
 {
   "name": "bugberus",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Bug tracking app",
+  "main": "app.js",
   "scripts": {
     "dev": "node --watch app.js"
   },
