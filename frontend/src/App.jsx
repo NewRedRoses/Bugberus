@@ -10,6 +10,7 @@ import Button from "./components/Button.jsx";
 import Modal from "./components/Modal.jsx";
 import Input from "./components/Input.jsx";
 import NoContent from "./components/NoContent.jsx";
+import NavLink from "./components/NavLink.jsx";
 
 function App() {
   const [projects, setProjects] = useState([]);
@@ -97,15 +98,18 @@ function App() {
           {projects == null ? (
             <NoContent Icon={FileWarning} message="No Projects" />
           ) : (
-            <ul className="mt-4 flex flex-col justify-center gap-5 sm:flex-row sm:justify-start">
-              {projects.map((project, index) => {
+            <ul className="mt-4 grid w-full grid-cols-1 gap-5 sm:grid-cols-2">
+              {projects.map((project) => {
                 return (
-                  <Link key={index} to={`/project/${project.id}`}>
-                    <li className="flex h-20 w-full items-center rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-700 ring-2 ring-yellow-300 sm:w-2xs">
+                  <NavLink classNames="w-full" to={`/project/${project.id}`}>
+                    <li
+                      key={project.id}
+                      className="flex h-20 items-center rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-700 ring-2 ring-yellow-300"
+                    >
                       <div className="text-xl font-bold">{project.name}</div>
                       {/* {handlEnglisheWordingForMultiples("bug", project._count.bugs)} */}
                     </li>
-                  </Link>
+                  </NavLink>
                 );
               })}
             </ul>
