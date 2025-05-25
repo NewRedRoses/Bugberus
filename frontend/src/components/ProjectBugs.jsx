@@ -27,6 +27,7 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
       .then((response) => {
         if (response.status == 200) {
           toast.success("Bug has been added to project successfully.");
+          setIsModalOpen(false);
         }
       })
       .catch((error) => toast.error("Failure creating bug. Please try again."));
@@ -91,10 +92,7 @@ export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
               <Button
                 uiType="custom"
                 classNames="rounded bg-indigo-300 p-1 px-3 font-bold text-indigo-800  hover:bg-indigo-900 hover:text-indigo-50"
-                onClick={() => {
-                  sendBugRequest();
-                  setIsModalOpen(false);
-                }}
+                onClick={sendBugRequest}
               >
                 Add Bug
               </Button>
