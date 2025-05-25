@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const { PrismaClient } = require("../generated/prisma/client.js");
 const prisma = new PrismaClient();
 
@@ -38,16 +39,24 @@ const createProject = (req, res) => {
     if (error) {
       res.sendStatus(403);
     } else {
+      const results = validationResult(req);
       const { name } = req.body;
 
       try {
-        await prisma.project.create({
-          data: {
-            name: name,
-            ownerId: authData.user.id,
-          },
-        });
-        res.sendStatus(200);
+        if (results.isEmpty()) {
+          await prisma.project.create({
+            data: {
+              name: name,
+              ownerId: authData.user.id,
+            },
+          });
+          res.sendStatus(200);
+        } else {
+          const errorMessages = results.errors.map(
+            (error) => new Object({ msg: error.msg }),
+          );
+          res.status(422).json(errorMessages);
+        }
       } catch (err) {
         res.sendStatus(500);
       }
@@ -61,6 +70,7 @@ const renameProject = (req, res) => {
       res.sendStatus(403);
     } else {
       const projectId = parseInt(req.params.projectId);
+      const results = validationResult(req);
       const { name } = req.body;
 
       if (Number.isInteger(projectId)) {
@@ -70,24 +80,31 @@ const renameProject = (req, res) => {
           },
         });
 
-        if (project) {
-          if (project.ownerId == authData.user.id) {
-            const updatedProject = await prisma.project.update({
-              where: {
-                id: projectId,
-              },
-              data: {
-                name,
-                modifiedAt: new Date(),
-              },
-            });
+        if (results.isEmpty()) {
+          if (project) {
+            if (project.ownerId == authData.user.id) {
+              const updatedProject = await prisma.project.update({
+                where: {
+                  id: projectId,
+                },
+                data: {
+                  name,
+                  modifiedAt: new Date(),
+                },
+              });
 
-            res.sendStatus(200);
+              res.sendStatus(200);
+            } else {
+              res.sendStatus(403);
+            }
           } else {
-            res.sendStatus(403);
+            res.sendStatus(404);
           }
         } else {
-          res.sendStatus(404);
+          const errorMessages = results.errors.map(
+            (error) => new Object({ msg: error.msg }),
+          );
+          res.status(422).json(errorMessages);
         }
       } else {
         res.sendStatus(500);
@@ -175,21 +192,29 @@ const createProjectBug = (req, res) => {
       res.sendStatus(403);
     } else {
       const projectId = parseInt(req.params.projectId);
+      const results = validationResult(req);
 
       if (Number.isInteger(projectId)) {
         const { name, description } = req.body;
 
-        const newBug = await prisma.bug.create({
-          data: {
-            name,
-            description,
-            projectId,
-          },
-        });
-        if (newBug) {
-          res.sendStatus(200);
+        if (results.isEmpty()) {
+          const newBug = await prisma.bug.create({
+            data: {
+              name,
+              description,
+              projectId,
+            },
+          });
+          if (newBug) {
+            res.sendStatus(200);
+          } else {
+            res.sendStatus(500);
+          }
         } else {
-          res.sendStatus(500);
+          const errorMessages = results.errors.map(
+            (error) => new Object({ msg: error.msg }),
+          );
+          res.status(422).json(errorMessages);
         }
       } else {
         res.sendStatus(400);

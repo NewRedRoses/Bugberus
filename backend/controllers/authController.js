@@ -2,6 +2,7 @@ const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
 
 const { PrismaClient } = require("../generated/prisma/client.js");
 const prisma = new PrismaClient();
@@ -53,17 +54,26 @@ const loginPost = async (req, res, next) => {
     if (err) {
       return next(err);
     }
-    if (!user) {
-      res.status(401).json({ failure: "Incorrect username or password" });
+    const results = validationResult(req);
+
+    if (results.isEmpty()) {
+      if (!user) {
+        res.status(401).json({ msg: "Incorrect username or password" });
+      } else {
+        jwt.sign(
+          { user: user },
+          process.env.SECRET,
+          { expiresIn: 60 * 60 * 24 },
+          (err, token) => {
+            res.json({ token });
+          },
+        );
+      }
     } else {
-      jwt.sign(
-        { user: user },
-        process.env.SECRET,
-        { expiresIn: 60 * 60 * 24 },
-        (err, token) => {
-          res.json({ token });
-        },
+      const errorMessages = results.errors.map(
+        (error) => new Object({ msg: error.msg }),
       );
+      res.status(422).json(errorMessages);
     }
   })(req, res, next);
 };
@@ -71,46 +81,45 @@ const loginPost = async (req, res, next) => {
 const signupPost = async (req, res) => {
   const { username, password, email } = req.body;
 
-  // TODO: Implement actual validation and sanitization
+  const results = validationResult(req);
 
-  if (username != "" && password != "" && email != "") {
-    try {
-      const userInDb = await prisma.user.findFirst({
-        where: {
-          OR: [
-            {
-              username: {
-                equals: username,
-              },
+  if (results.isEmpty()) {
+    const userInDb = await prisma.user.findFirst({
+      where: {
+        OR: [
+          {
+            username: {
+              equals: username,
             },
-            {
-              email: {
-                equals: email,
-              },
+          },
+          {
+            email: {
+              equals: email,
             },
-          ],
+          },
+        ],
+      },
+    });
+
+    if (userInDb) {
+      res
+        .status(403)
+        .json({ message: "a user with those credentials already exists." });
+    } else {
+      const user = await prisma.user.create({
+        data: {
+          username,
+          password: await bcrypt.hash(password, 10),
+          email,
         },
       });
-
-      if (userInDb) {
-        res
-          .status(403)
-          .json({ message: "a user with those credentials already exists." });
-      } else {
-        const user = await prisma.user.create({
-          data: {
-            username,
-            password: await bcrypt.hash(password, 10),
-            email,
-          },
-        });
-        res.sendStatus(200);
-      }
-    } catch (err) {
-      res.sendStatus(404);
+      res.sendStatus(200);
     }
   } else {
-    res.sendStatus(500);
+    const errorMessages = results.errors.map(
+      (error) => new Object({ msg: error.msg }),
+    );
+    res.status(422).json(errorMessages);
   }
 };
 

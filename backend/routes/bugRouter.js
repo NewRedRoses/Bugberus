@@ -1,4 +1,6 @@
 const { Router } = require("express");
+const { body } = require("express-validator");
+
 const bugRouter = Router();
 
 const {
@@ -10,10 +12,21 @@ const {
 
 const verifyToken = require("../middlewares/verifyToken.js");
 
+const validateBugName = [
+  body("name")
+    .trim()
+    .notEmpty()
+    .withMessage("Bug's name cannot be empty.")
+    .isLength({ min: 1, max: 50 })
+    .withMessage(
+      "Bug's name must be longer than one character but less than 50.",
+    ),
+];
+
 bugRouter.get("/:bugId", verifyToken, fetchBug);
 bugRouter.delete("/:bugId", verifyToken, deleteBug);
 
-bugRouter.patch("/:bugId/rename", verifyToken, renameBug);
+bugRouter.patch("/:bugId/rename", verifyToken, validateBugName, renameBug);
 bugRouter.patch("/:bugId/status", verifyToken, changeBugStatus);
 
 module.exports = bugRouter;

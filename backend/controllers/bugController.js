@@ -1,5 +1,6 @@
 const { PrismaClient } = require("../generated/prisma/client.js");
 const prisma = new PrismaClient();
+const { validationResult } = require("express-validator");
 
 const jwt = require("jsonwebtoken");
 
@@ -43,20 +44,28 @@ const renameBug = (req, res) => {
     } else {
       const bugId = parseInt(req.params.bugId);
       const { name } = req.body;
+      const results = validationResult(req);
 
-      if (Number.isInteger(bugId)) {
-        const renamedBug = await prisma.bug.update({
-          where: {
-            id: bugId,
-          },
-          data: {
-            name,
-            modifiedAt: new Date(),
-          },
-        });
-        res.sendStatus(200);
+      if (results.isEmpty()) {
+        if (Number.isInteger(bugId)) {
+          const renamedBug = await prisma.bug.update({
+            where: {
+              id: bugId,
+            },
+            data: {
+              name,
+              modifiedAt: new Date(),
+            },
+          });
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(500);
+        }
       } else {
-        res.sendStatus(500);
+        const errorMessages = results.errors.map(
+          (error) => new Object({ msg: error.msg }),
+        );
+        res.status(422).json(errorMessages);
       }
     }
   });
