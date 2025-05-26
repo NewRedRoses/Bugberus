@@ -13,7 +13,7 @@ import Dropdown from "../components/Dropdown";
 import Selection from "./Selection";
 import Button from "./Button";
 
-export default function Bug({ bug }) {
+export default function Bug({ bug, bugs, setBugs }) {
   const [newBug, setNewBug] = useState(bug);
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
   const [bugStatus, setBugStatus] = useState(bug.status);

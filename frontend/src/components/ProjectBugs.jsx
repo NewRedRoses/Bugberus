@@ -114,7 +114,7 @@ export default function ProjectBugs({ project, bugs, setBugs, bugsUrl }) {
           {bugs.map((bug) => {
             return (
               <li key={bug.id}>
-                <Bug bug={bug} />
+                <Bug bug={bug} bugs={bugs} setBugs={setBugs} />
               </li>
             );
           })}
