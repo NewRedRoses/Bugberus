@@ -54,7 +54,8 @@ function App() {
       })
       .then((response) => {
         if (response.status == 200) {
-          toast.success("Post created successfully.");
+          setProjects([...projects, response.data]);
+          // reset the value in case a new project will be created after
           setNewProject({ name: "" });
           setIsModalOpen(false);
         }
