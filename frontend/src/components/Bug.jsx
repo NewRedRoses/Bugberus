@@ -54,7 +54,9 @@ export default function Bug({ bug, bugs, setBugs }) {
       .delete(bugUrl, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         if (response.status == 200) {
+          const backendBug = response.data;
           toast.success("Bug has been deleted successfully.");
+          setBugs(bugs.filter((buggy) => buggy.id !== backendBug.id));
         }
       })
       .catch((error) =>

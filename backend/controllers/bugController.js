@@ -101,7 +101,7 @@ const deleteBug = (req, res) => {
               deletedAt: new Date(),
             },
           });
-          res.sendStatus(200);
+          res.json(bugToDelete);
         } else {
           res.sendStatus(403);
         }
