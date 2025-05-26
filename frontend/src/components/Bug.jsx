@@ -38,7 +38,14 @@ export default function Bug({ bug }) {
             setIsBugBeingRenamed(false);
           }
         })
-        .catch((error) => toast.error("Error renaming bug. Please try again."));
+        .catch((error) => {
+          if (error.status == 422) {
+            const errorMessages = error.response.data;
+            toast.error(errorMessages[0].msg);
+          } else {
+            toast.error("Error renaming. Please try again later.");
+          }
+        });
     }
   };
 
@@ -47,7 +54,7 @@ export default function Bug({ bug }) {
       .delete(bugUrl, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         if (response.status == 200) {
-          toast.success("Bug has been deleted succesfully.");
+          toast.success("Bug has been deleted successfully.");
         }
       })
       .catch((error) =>
