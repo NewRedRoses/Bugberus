@@ -44,13 +44,13 @@ const createProject = (req, res) => {
 
       try {
         if (results.isEmpty()) {
-          await prisma.project.create({
+          const newProject = await prisma.project.create({
             data: {
               name: name,
               ownerId: authData.user.id,
             },
           });
-          res.sendStatus(200);
+          res.json(newProject);
         } else {
           const errorMessages = results.errors.map(
             (error) => new Object({ msg: error.msg }),
@@ -206,7 +206,7 @@ const createProjectBug = (req, res) => {
             },
           });
           if (newBug) {
-            res.sendStatus(200);
+            res.json(newBug);
           } else {
             res.sendStatus(500);
           }
