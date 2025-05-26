@@ -9,7 +9,7 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import NoContent from "../components/NoContent";
 
-export default function ProjectBugs({ project, bugs, bugsUrl, params }) {
+export default function ProjectBugs({ project, bugs, setBugs, bugsUrl }) {
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newBug, setNewBug] = useState({ name: "", description: "" });

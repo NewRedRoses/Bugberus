@@ -184,6 +184,7 @@ export default function Project() {
               <ProjectBugs
                 project={project}
                 bugs={bugs}
+                setBugs={setBugs}
                 bugsUrl={bugsUrl}
                 params={params}
               />
