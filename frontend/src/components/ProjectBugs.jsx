@@ -26,7 +26,8 @@ export default function ProjectBugs({ project, bugs, setBugs, bugsUrl }) {
       })
       .then((response) => {
         if (response.status == 200) {
-          toast.success("Bug has been added to project successfully.");
+          const backendBug = response.data;
+          setBugs([...bugs, backendBug]);
           setIsModalOpen(false);
         }
       })
