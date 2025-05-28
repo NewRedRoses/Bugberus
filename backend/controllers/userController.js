@@ -38,7 +38,16 @@ const fetchUserProjects = (req, res) => {
         select: {
           id: true,
           name: true,
-          createdAt: true,
+          bugs: {
+            where: {
+              deletedAt: {
+                equals: null,
+              },
+            },
+            select: {
+              id: true,
+            },
+          },
         },
       });
       res.json(projects);

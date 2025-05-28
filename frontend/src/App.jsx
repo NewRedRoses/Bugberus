@@ -107,9 +107,14 @@ function App() {
                     classNames="w-full"
                     to={`/project/${project.id}`}
                   >
-                    <li className="flex h-20 items-center rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-700 ring-2 ring-yellow-300">
+                    <li className="flex h-20 items-center justify-between rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-700 ring-2 ring-yellow-300">
                       <div className="text-xl font-bold">{project.name}</div>
-                      {/* {handlEnglisheWordingForMultiples("bug", project._count.bugs)} */}
+                      <div className="pr-4">
+                        {handlEnglisheWordingForMultiples(
+                          "bug",
+                          project.bugs.length,
+                        )}
+                      </div>
                     </li>
                   </NavLink>
                 );
