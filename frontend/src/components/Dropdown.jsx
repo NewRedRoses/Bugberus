@@ -28,7 +28,10 @@ export default function Dropdown({
               key={menuItem.name}
               className={`rounded px-2 ${menuItem.classNames}`}
             >
-              <div className="flex items-center justify-start gap-2 data-focus:cursor-pointer">
+              <div
+                className="flex items-center justify-start gap-2 data-focus:cursor-pointer"
+                onClick={menuItem.function}
+              >
                 {Icon && <Icon size={20} className="opacity-80" />}
                 <button
                   type=""
