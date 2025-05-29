@@ -1,8 +1,9 @@
 import { useNavigate, useLocation } from "react-router";
-import { House } from "lucide-react";
+import { House, LogOut, User } from "lucide-react";
 
 import NavLink from "./NavLink.jsx";
 import Button from "./Button.jsx";
+import Dropdown from "./Dropdown.jsx";
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -20,6 +21,22 @@ export default function NavBar() {
 
   const routesWithoutNavbar = ["/login", "/signup"];
 
+  const loginActions = [
+    {
+      name: "Log Out",
+      classNames: "text-sm  data-focus:bg-slate-300",
+      icon: LogOut,
+      function: handleLogout,
+    },
+  ];
+
+  const RightDiv = () => {
+    return (
+      <div className="flex flex-col items-center gap-1 border-slate-300 p-1 hover:border-slate-400">
+        <User />
+      </div>
+    );
+  };
   return (
     <>
       {shouldNavbarBeHidden(currentPath, routesWithoutNavbar) == false ? (
@@ -28,7 +45,11 @@ export default function NavBar() {
             <House className="" />
           </NavLink>
 
-          <Button onClick={handleLogout}>Log Out</Button>
+          <Dropdown
+            menuBtn={<RightDiv />}
+            menuItems={loginActions}
+            anchor="bottom"
+          />
         </div>
       ) : (
         <div className="p-8" />
