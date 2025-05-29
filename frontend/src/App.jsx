@@ -16,7 +16,7 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({ name: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [areProjectsLoading, setAreProjectsLoading] = useState(true);
 
   const projectsUrl = "http://localhost:3000/user/projects";
   const createProjectUrl = "http://localhost:3000/project";
@@ -30,13 +30,13 @@ function App() {
       })
       .then((response) => {
         if (response.status == 200) {
-          setIsUserLoggedIn(true);
           if (response.data.length > 0) {
             setProjects(response.data);
           } else {
             setProjects(null);
           }
         }
+        setAreProjectsLoading(false);
       })
       .catch((error) => {
         if (error.status == 403) {
@@ -70,59 +70,66 @@ function App() {
 
   return (
     <>
-      {isUserLoggedIn && (
-        <div className="container mt-10 flex flex-col px-10">
-          <span className="flex items-center gap-4 pb-5">
-            <h1 className="text-3xl font-bold">Projects</h1>
+      <div className="container mt-10 flex flex-col px-10">
+        <span className="flex items-center gap-4 pb-5">
+          <h1 className="text-3xl font-bold">Projects</h1>
 
-            <Modal
-              openBtnTitle="Add"
-              isModalOpen={isModalOpen}
-              setIsModalOpen={setIsModalOpen}
-              modalTitle="Create a new project"
-            >
-              <div className="flex flex-col">
-                <Input
-                  label="Project name"
-                  value={newProject.name}
-                  onChange={(e) =>
-                    setNewProject({ ...newProject, name: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mt-5 flex justify-end gap-2">
-                <Button uiType="cancel">Cancel</Button>
-                <Button onClick={handleAddProject}>Create</Button>
-              </div>
-            </Modal>
-          </span>
-          {projects == null ? (
-            <NoContent Icon={FileWarning} message="No Projects" />
-          ) : (
-            <ul className="mt-4 grid w-full grid-cols-1 gap-5 sm:grid-cols-2">
-              {projects.map((project) => {
-                return (
-                  <NavLink
-                    key={project.id}
-                    classNames="w-full"
-                    to={`/project/${project.id}`}
-                  >
-                    <li className="flex h-20 items-center justify-between rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-700 ring-2 ring-yellow-300">
-                      <div className="text-xl font-bold">{project.name}</div>
-                      <div className="pr-4">
-                        {handlEnglisheWordingForMultiples(
-                          "bug",
-                          project.bugs.length,
-                        )}
-                      </div>
-                    </li>
-                  </NavLink>
-                );
-              })}
-            </ul>
-          )}
-        </div>
-      )}
+          <Modal
+            openBtnTitle="Add"
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            modalTitle="Create a new project"
+          >
+            <div className="flex flex-col">
+              <Input
+                label="Project name"
+                value={newProject.name}
+                onChange={(e) =>
+                  setNewProject({ ...newProject, name: e.target.value })
+                }
+              />
+            </div>
+            <div className="mt-5 flex justify-end gap-2">
+              <Button uiType="cancel">Cancel</Button>
+              <Button onClick={handleAddProject}>Create</Button>
+            </div>
+          </Modal>
+        </span>
+
+        {areProjectsLoading ? (
+          <div className="align-center mt-30 flex h-max justify-center">
+            <div className="loader"></div>
+          </div>
+        ) : (
+          <>
+            {projects == null ? (
+              <NoContent Icon={FileWarning} message="No Projects" />
+            ) : (
+              <ul className="mt-4 grid w-full grid-cols-1 gap-5 sm:grid-cols-2">
+                {projects.map((project) => {
+                  return (
+                    <NavLink
+                      key={project.id}
+                      classNames="w-full"
+                      to={`/project/${project.id}`}
+                    >
+                      <li className="flex h-20 items-center justify-between rounded-2xl bg-yellow-100 p-3 pl-5 text-yellow-700 ring-2 ring-yellow-300">
+                        <div className="text-xl font-bold">{project.name}</div>
+                        <div className="pr-4">
+                          {handlEnglisheWordingForMultiples(
+                            "bug",
+                            project.bugs.length,
+                          )}
+                        </div>
+                      </li>
+                    </NavLink>
+                  );
+                })}
+              </ul>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 }
