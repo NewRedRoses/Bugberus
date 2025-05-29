@@ -28,8 +28,8 @@ export default function ProjectBugs({ project, bugs, setBugs, bugsUrl }) {
         if (response.status == 200) {
           const backendBug = response.data;
           setBugs([...bugs, backendBug]);
-          setIsModalOpen(false);
         }
+        setIsModalOpen(false);
       })
       .catch((error) => {
         if (error.status == 422) {
@@ -37,6 +37,7 @@ export default function ProjectBugs({ project, bugs, setBugs, bugsUrl }) {
 
           toast.error(errorMessages[0].msg);
         }
+        setIsModalOpen(false);
       });
   };
 
