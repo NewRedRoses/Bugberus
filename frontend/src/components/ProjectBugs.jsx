@@ -9,7 +9,13 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import NoContent from "../components/NoContent";
 
-export default function ProjectBugs({ project, bugs, setBugs, bugsUrl }) {
+export default function ProjectBugs({
+  project,
+  bugs,
+  setBugs,
+  bugsUrl,
+  isLoading,
+}) {
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newBug, setNewBug] = useState({ name: "", description: "" });
@@ -108,18 +114,26 @@ export default function ProjectBugs({ project, bugs, setBugs, bugsUrl }) {
           </>
         </Modal>
       </div>
-      {bugs == null ? (
-        <NoContent Icon={BugLucide} message="No bugs tracked" />
+      {isLoading ? (
+        <div className="align-center mt-30 flex h-max justify-center">
+          <div className="loader"></div>
+        </div>
       ) : (
-        <ul className="grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2">
-          {bugs.map((bug) => {
-            return (
-              <li key={bug.id}>
-                <Bug bug={bug} bugs={bugs} setBugs={setBugs} />
-              </li>
-            );
-          })}
-        </ul>
+        <>
+          {bugs == null ? (
+            <NoContent Icon={BugLucide} message="No bugs tracked" />
+          ) : (
+            <ul className="grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2">
+              {bugs.map((bug) => {
+                return (
+                  <li key={bug.id}>
+                    <Bug bug={bug} bugs={bugs} setBugs={setBugs} />
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </>
       )}
     </>
   );

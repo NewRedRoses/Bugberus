@@ -19,7 +19,7 @@ export default function Project() {
   const [project, setProject] = useState({});
   const [bugs, setBugs] = useState([]);
   const [isProjectBeingRenamed, setIsProjectBeingRenamed] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState({ project: true, bugs: true });
 
   const params = useParams();
   const bugsUrl = `http://localhost:3000/project/${params.projectId}/bugs`;
@@ -35,14 +35,14 @@ export default function Project() {
       .then((response) => {
         if (response.status == 200) {
           setProject(response.data);
-          setIsUserLoggedIn(true);
         }
+        setIsLoading((prev) => ({ ...prev, project: false }));
       })
       .catch((error) => {
         if (error.status == 404) {
           setProject(404);
-          setIsUserLoggedIn(true);
         }
+        setIsLoading((prev) => ({ ...prev, project: false }));
       });
 
     axios
@@ -57,6 +57,7 @@ export default function Project() {
             setBugs(null);
           }
         }
+        setIsLoading((prev) => ({ ...prev, bugs: false }));
       })
       .catch((error) => {
         if (error.status == 403) {
@@ -128,7 +129,11 @@ export default function Project() {
   ];
   return (
     <>
-      {isUserLoggedIn && (
+      {isLoading.project ? (
+        <div className="align-center mt-30 flex h-max justify-center">
+          <div className="loader"></div>
+        </div>
+      ) : (
         <div className="container">
           {project == 404 ? (
             <div className="px-10 pt-10">
@@ -187,6 +192,7 @@ export default function Project() {
                 setBugs={setBugs}
                 bugsUrl={bugsUrl}
                 params={params}
+                isLoading={isLoading.bugs}
               />
             </div>
           )}
