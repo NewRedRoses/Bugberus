@@ -4,7 +4,7 @@
   "description": "Bug tracking app",
   "main": "app.js",
   "scripts": {
-    "dev": "node --watch app.js"
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
