@@ -5,6 +5,7 @@ import {
   TextCursorInput,
   Trash2,
   Bug as Buggy,
+  BrushCleaning,
 } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -153,10 +154,15 @@ export default function Bug({ bug, bugs, setBugs }) {
           dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
         />
       </div>
-      {bug.description && (
+      {bug.description ? (
         <p className="mt-2 max-h-30 overflow-auto font-medium">
           {bug.description}
         </p>
+      ) : (
+        <div className="align-center flex h-full items-center justify-center gap-2 text-lg font-medium text-indigo-900 opacity-50">
+          <BrushCleaning />
+          No Description
+        </div>
       )}
 
       <div className="mt-auto flex items-end justify-end pt-4 pb-2">
