@@ -53,7 +53,7 @@ model PasswordToken {
   id        Int      @id @default(autoincrement())
   userId    Int      @unique
   user      User     @relation(fields: [userId], references: [id])
-  token     String
+  token     String   @unique
   createdAt DateTime @default(now())
   expiresAt DateTime @default(dbgenerated("NOW() + INTERVAL '1 hour'"))
 }
