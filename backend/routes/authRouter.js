@@ -3,7 +3,12 @@ const { Router } = require("express");
 
 const authRouter = Router();
 
-const { loginPost, signupPost } = require("../controllers/authController.js");
+const {
+  loginPost,
+  signupPost,
+  resetPasswordRequest,
+  resetPasswordCheck,
+} = require("../controllers/authController.js");
 
 // username, password, email are the body fields
 const validateSignup = [
@@ -32,5 +37,8 @@ const validateLogin = [
 authRouter.post("/login", validateLogin, loginPost);
 
 authRouter.post("/signup", validateSignup, signupPost);
+
+authRouter.post("/reset-password", resetPasswordRequest);
+authRouter.post("/reset-password-check", resetPasswordCheck);
 
 module.exports = authRouter;
