@@ -5,6 +5,7 @@ import App from "../App.jsx";
 import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
 import Project from "./Project.jsx";
+import ResetPassword from "./ResetPassword.jsx";
 import NavBar from "../components/Navbar.jsx";
 
 export default function Index() {
@@ -17,6 +18,7 @@ export default function Index() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/project/:projectId" element={<Project />} />
+        <Route path="/passwordReset" element={<ResetPassword />} />
       </Routes>
     </div>
   );
