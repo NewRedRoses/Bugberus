@@ -58,16 +58,21 @@ export default function Login() {
             }}
           />
 
-          <Input
-            type="password"
-            id="password"
-            value={formData.password}
-            label="Password"
-            inputClassNames="px-2 border rounded"
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-          />
+          <div className="mb-2">
+            <Input
+              type="password"
+              id="password"
+              value={formData.password}
+              label="Password"
+              inputClassNames="px-2 border rounded"
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+            />
+            <div className="text-md mt-2">
+              <NavLink to="/passwordReset">Forgot your password?</NavLink>
+            </div>
+          </div>
         </div>
 
         <Button
