@@ -19,7 +19,7 @@ export default function NavBar() {
     return noNavbarRoutes.some((element) => path === element);
   };
 
-  const routesWithoutNavbar = ["/login", "/signup"];
+  const routesWithoutNavbar = ["/login", "/signup", "/passwordReset"];
 
   const loginActions = [
     {
