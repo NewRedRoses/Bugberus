@@ -100,6 +100,9 @@ const deleteBug = (req, res) => {
             data: {
               deletedAt: new Date(),
             },
+            select: {
+              id: true,
+            },
           });
           res.json(bugToDelete);
         } else {
