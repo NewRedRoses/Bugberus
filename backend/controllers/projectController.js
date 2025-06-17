@@ -12,7 +12,7 @@ const fetchProjectDetails = (req, res) => {
       const projectId = parseInt(req.params.projectId);
 
       if (Number.isInteger(projectId)) {
-        const project = await prisma.project.findFirst({
+        const project = await prisma.project.findUnique({
           where: {
             id: projectId,
           },
