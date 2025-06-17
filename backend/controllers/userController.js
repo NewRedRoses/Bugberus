@@ -48,6 +48,8 @@ const fetchUserProjects = (req, res) => {
               id: true,
             },
           },
+          createdAt: true,
+          modifiedAt: true,
         },
       });
       res.json(projects);
