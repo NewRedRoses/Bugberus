@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { FileWarning } from "lucide-react";
+import { FileWarning, ArrowDownUp, ClockArrowDown } from "lucide-react";
 
 import "./App.css";
 import { handlEnglisheWordingForMultiples } from "./helpers.js";
@@ -11,9 +11,11 @@ import Modal from "./components/Modal.jsx";
 import Input from "./components/Input.jsx";
 import NoContent from "./components/NoContent.jsx";
 import NavLink from "./components/NavLink.jsx";
+import Dropdown from "./components/Dropdown.jsx";
 
 function App() {
   const [projects, setProjects] = useState([]);
+  const [sortStatus, setSortStatus] = useState(null);
   const [newProject, setNewProject] = useState({ name: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [areProjectsLoading, setAreProjectsLoading] = useState(true);
@@ -68,34 +70,58 @@ function App() {
       });
   };
 
+  const sortingActions = [
+    {
+      name: "Oldest First",
+      classNames: "data-focus:bg-slate-300",
+      icon: ClockArrowDown,
+      function: () => {
+        const sorted = [...projects].sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+        );
+        setSortStatus("Sorting by oldest first");
+        setProjects(sorted);
+      },
+    },
+  ];
+
   return (
     <>
       <div className="container mt-10 flex flex-col px-10">
-        <span className="flex items-center gap-4 pb-5">
-          <h1 className="text-3xl font-bold">Projects</h1>
+        <div>
+          <span className="flex items-center gap-4 pb-5">
+            <h1 className="text-3xl font-bold">Projects</h1>
 
-          <Modal
-            openBtnTitle="Add"
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            modalTitle="Create a new project"
-          >
-            <div className="flex flex-col">
-              <Input
-                label="Project name"
-                value={newProject.name}
-                onChange={(e) =>
-                  setNewProject({ ...newProject, name: e.target.value })
-                }
-              />
-            </div>
-            <div className="mt-5 flex justify-end gap-2">
-              <Button uiType="cancel">Cancel</Button>
-              <Button onClick={handleAddProject}>Create</Button>
-            </div>
-          </Modal>
-        </span>
-
+            <Modal
+              openBtnTitle="Add"
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              modalTitle="Create a new project"
+            >
+              <div className="flex flex-col">
+                <Input
+                  label="Project name"
+                  value={newProject.name}
+                  onChange={(e) =>
+                    setNewProject({ ...newProject, name: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mt-5 flex justify-end gap-2">
+                <Button uiType="cancel">Cancel</Button>
+                <Button onClick={handleAddProject}>Create</Button>
+              </div>
+            </Modal>
+          </span>
+          <div className="flex justify-end gap-2">
+            {sortStatus}
+            <Dropdown
+              menuBtn={<ArrowDownUp />}
+              menuItems={sortingActions}
+              anchor="top"
+            />
+          </div>
+        </div>
         {areProjectsLoading ? (
           <div className="align-center mt-30 flex h-max justify-center">
             <div className="loader"></div>
