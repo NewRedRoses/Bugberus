@@ -3,6 +3,7 @@ const prisma = new PrismaClient();
 const { validationResult } = require("express-validator");
 
 const jwt = require("jsonwebtoken");
+const { updateProjectModifyTime } = require("../helpers/project.js");
 
 const fetchBug = (req, res) => {
   jwt.verify(req.token, process.env.SECRET, async (error, authData) => {
@@ -57,6 +58,7 @@ const renameBug = (req, res) => {
               modifiedAt: new Date(),
             },
           });
+          updateProjectModifyTime(renamedBug.projectId);
           res.sendStatus(200);
         } else {
           res.sendStatus(500);
@@ -65,6 +67,7 @@ const renameBug = (req, res) => {
         const errorMessages = results.errors.map(
           (error) => new Object({ msg: error.msg }),
         );
+
         res.status(422).json(errorMessages);
       }
     }
@@ -86,6 +89,7 @@ const deleteBug = (req, res) => {
           select: {
             project: {
               select: {
+                id: true,
                 ownerId: true,
               },
             },
@@ -104,6 +108,7 @@ const deleteBug = (req, res) => {
               id: true,
             },
           });
+          updateProjectModifyTime(bug.project.id);
           res.json(bugToDelete);
         } else {
           res.sendStatus(403);
@@ -131,6 +136,7 @@ const changeBugStatus = (req, res) => {
           select: {
             project: {
               select: {
+                id: true,
                 ownerId: true,
               },
             },
@@ -147,6 +153,7 @@ const changeBugStatus = (req, res) => {
               modifiedAt: new Date(),
             },
           });
+          updateProjectModifyTime(bug.project.id);
           res.sendStatus(200);
         } else {
           res.sendStatus(403);
