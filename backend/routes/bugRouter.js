@@ -8,6 +8,7 @@ const {
   renameBug,
   deleteBug,
   changeBugStatus,
+  updateBugDescription,
 } = require("../controllers/bugController.js");
 
 const verifyToken = require("../middlewares/verifyToken.js");
@@ -28,5 +29,6 @@ bugRouter.delete("/:bugId", verifyToken, deleteBug);
 
 bugRouter.patch("/:bugId/rename", verifyToken, validateBugName, renameBug);
 bugRouter.patch("/:bugId/status", verifyToken, changeBugStatus);
+bugRouter.patch("/:bugId/description", verifyToken, updateBugDescription);
 
 module.exports = bugRouter;
