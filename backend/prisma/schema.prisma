@@ -47,6 +47,7 @@ model Bug {
   modifiedAt  DateTime?
   deletedAt   DateTime?
   status      Status    @default(UNDEFINED)
+  difficulty Difficulty @default(UNDEFINED)
 }
 
 model PasswordToken {
@@ -62,4 +63,11 @@ enum Status {
   UNDEFINED
   STARTED
   FINISHED
+}
+
+enum Difficulty {
+  UNDEFINED
+  EASY
+  MEDIUM
+  HARD
 }
