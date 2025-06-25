@@ -13,11 +13,15 @@ import Card from "../components/Card";
 import Dropdown from "../components/Dropdown";
 import Selection from "./Selection";
 import Button from "./Button";
+import Modal from "../components/Modal";
+import TextArea from "./Textarea";
 
 export default function Bug({ bug, bugs, setBugs }) {
   const [newBug, setNewBug] = useState(bug);
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
   const [bugStatus, setBugStatus] = useState(bug.status);
+  const [bugDifficulty, setBugDifficulty] = useState(bug.difficulty);
+  const [isBugExpanded, setIsBugExpanded] = useState(false);
 
   const bugUrl = `http://localhost:3000/bug/${bug.id}`;
 
@@ -56,7 +60,6 @@ export default function Bug({ bug, bugs, setBugs }) {
       .then((response) => {
         if (response.status == 200) {
           const backendBug = response.data;
-          toast.success("Bug has been deleted successfully.");
           setBugs(bugs.filter((buggy) => buggy.id !== backendBug.id));
         }
       })
@@ -73,6 +76,36 @@ export default function Bug({ bug, bugs, setBugs }) {
         headers: { Authorization: `Bearer ${token}` },
       },
     );
+  };
+  const handleBugDifficultyChange = async (e) => {
+    await axios.patch(
+      bugUrl + "/difficulty",
+      { difficulty: e.target.value },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+  };
+
+  const handleBugDescriptionSubmit = async () => {
+    await axios
+      .patch(
+        bugUrl + "/description",
+        { description: newBug.description },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      )
+      .then((response) => {})
+      .catch((error) => {
+        toast.error("Error saving description. Try again later.");
+      });
+  };
+
+  const handleModalVisibility = () => {
+    console.log(newBug.description);
+    handleBugDescriptionSubmit();
+    setIsBugExpanded(!isBugExpanded);
   };
 
   const bugActions = [
@@ -104,8 +137,24 @@ export default function Bug({ bug, bugs, setBugs }) {
     },
   ];
 
+  const bugDifficultyOptions = [
+    {
+      value: "UNDEFINED",
+      label: "Unknown",
+    },
+    { value: "EASY", label: "Easy" },
+    {
+      value: "MEDIUM",
+      label: "Medium",
+    },
+    {
+      value: "HARD",
+      label: "Hard",
+    },
+  ];
+
   return (
-    <Card classes="flex flex-col h-full sm:h-65 border-4 border-indigo-300 text-indigo-900 bg-indigo-300 shadow">
+    <Card classes="flex flex-col place-content-between  h-full sm:h-65 text-indigo-900 bg-indigo-300 shadow">
       <div className="flex max-w-full justify-between">
         <div className="flex items-center gap-3 text-lg">
           <div className="max-h-fit rounded bg-indigo-400 p-1 px-1">
@@ -156,7 +205,11 @@ export default function Bug({ bug, bugs, setBugs }) {
       </div>
       {bug.description ? (
         <p className="mt-2 max-h-30 overflow-auto font-medium">
-          {bug.description}
+          {/* if old and new description do not  match -> show new description  */}
+          {/* else -> show old description */}
+          {bug.description != newBug.description
+            ? newBug.description
+            : bug.description}
         </p>
       ) : (
         <div className="align-center flex h-full items-center justify-center gap-2 text-lg font-medium text-indigo-900 opacity-50">
@@ -165,19 +218,65 @@ export default function Bug({ bug, bugs, setBugs }) {
         </div>
       )}
 
-      <div className="mt-auto flex items-end justify-end pt-4 pb-2">
-        <Selection
-          value={bugStatus}
-          onChange={(e) => {
-            handleBugStatusChange(e);
-            setBugStatus(e.target.value);
-          }}
-          options={bugStatusOptions}
-          name="status"
-          ariaLabel="Bug accomplishment status"
-          selectionClasses="px-2  bg-indigo-400 text-indigo-900  font-semibold rounded-3xl hover:cursor-pointer"
-        />
-      </div>
+      <Modal
+        isModalOpen={isBugExpanded}
+        setIsModalOpen={setIsBugExpanded}
+        modalCardClasses={
+          "!bg-indigo-200 !text-indigo-950 w-lg  rounded-xl border-2 border-indigo-300"
+        }
+      >
+        <h1 className="text-xl font-bold">{newBug.name}</h1>
+
+        <div className="mb-8 flex flex-col gap-3">
+          <div className="pt-4 pb-2">
+            <label className="flex gap-3 font-semibold">
+              Progress:
+              <Selection
+                value={bugStatus}
+                onChange={(e) => {
+                  handleBugStatusChange(e);
+                  setBugStatus(e.target.value);
+                }}
+                options={bugStatusOptions}
+                name="status"
+                ariaLabel="Bug accomplishment status"
+                selectionClasses="bg-indigo-300 rounded pl-1 text-indigo-900  font-medium hover:cursor-pointer"
+              />
+            </label>
+          </div>
+          <div>
+            <label className="flex gap-3 font-semibold">
+              Difficulty:
+              <Selection
+                value={bugDifficulty}
+                onChange={(e) => {
+                  handleBugDifficultyChange(e);
+                  setBugDifficulty(e.target.value);
+                }}
+                options={bugDifficultyOptions}
+                name="difficulty"
+                ariaLabel="Bug difficulty level"
+                selectionClasses="bg-indigo-300 rounded pl-1 text-indigo-900  font-medium hover:cursor-pointer"
+              />
+            </label>
+          </div>
+        </div>
+
+        <TextArea
+          textareaClasses="mt-2 w-full bg-indigo-100 border border-indigo-300 rounded-lg p-2"
+          defaultValue={newBug.description}
+          value={newBug.description}
+          labelClasses="font-medium"
+          label="Description"
+          onChange={(e) =>
+            setNewBug({ ...newBug, description: e.target.value })
+          }
+        ></TextArea>
+
+        <Button onClick={() => setIsBugExpanded(false)}>Cancel</Button>
+        <Button onClick={handleModalVisibility}>Save</Button>
+      </Modal>
+      <Button onClick={() => setIsBugExpanded(true)}>Open</Button>
     </Card>
   );
 }
