@@ -212,10 +212,56 @@ const updateBugDescription = (req, res) => {
   });
 };
 
+const updateBugDifficulty = (req, res) => {
+  jwt.verify(req.token, process.env.SECRET, async (error, authData) => {
+    if (error) {
+      res.sendStatus(403);
+    } else {
+      const bugId = parseInt(req.params.bugId);
+      const { difficulty } = req.body;
+
+      if (Number.isInteger(bugId)) {
+        const bug = await prisma.bug.findFirst({
+          where: {
+            id: bugId,
+          },
+          select: {
+            project: {
+              select: {
+                id: true,
+                ownerId: true,
+              },
+            },
+          },
+        });
+
+        if (bug.project.ownerId == authData.user.id) {
+          const updatedBug = await prisma.bug.update({
+            where: {
+              id: bugId,
+            },
+            data: {
+              difficulty,
+              modifiedAt: new Date(),
+            },
+          });
+          updateProjectModifyTime(bug.project.id);
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(403);
+        }
+      } else {
+        res.sendStatus(500);
+      }
+    }
+  });
+};
+
 module.exports = {
   fetchBug,
   renameBug,
   deleteBug,
   changeBugStatus,
   updateBugDescription,
+  updateBugDifficulty,
 };
