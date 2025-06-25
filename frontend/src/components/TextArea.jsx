@@ -1,19 +1,25 @@
 import { Textarea, Field, Description, Label } from "@headlessui/react";
 
 export default function TextArea({
-  className,
+  textareaClasses,
   defaultValue,
-  title,
+  label,
   description,
+  labelClasses,
+  descriptionClasses,
+  onChange,
 }) {
   return (
     <Field>
-      {title && <Label>{title}</Label>}
-      {description && <Description>{Description}</Description>}
+      {label && <Label className={labelClasses}>{label}</Label>}
+      {description && (
+        <Description className={descriptionClasses}>{description}</Description>
+      )}
       <Textarea
-        name={title}
-        className={className}
+        name={label}
+        className={textareaClasses}
         defaultValue={defaultValue}
+        onChange={onChange}
       ></Textarea>
     </Field>
   );
