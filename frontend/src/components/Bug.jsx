@@ -299,7 +299,13 @@ export default function Bug({ bug, bugs, setBugs }) {
         <Button onClick={() => setIsBugExpanded(false)}>Cancel</Button>
         <Button onClick={handleModalVisibility}>Save</Button>
       </Modal>
-      <Button onClick={() => setIsBugExpanded(true)}>Open</Button>
+      <Button
+        onClick={() => setIsBugExpanded(true)}
+        uiType="custom"
+        classNames="bg-indigo-400 border-indigo-500 rounded font-bold p-1 text-indigo-950"
+      >
+        Open
+      </Button>
     </Card>
   );
 }
