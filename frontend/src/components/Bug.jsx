@@ -15,6 +15,7 @@ import Selection from "./Selection";
 import Button from "./Button";
 import Modal from "../components/Modal";
 import TextArea from "./Textarea";
+import Chip from "./Chip";
 
 export default function Bug({ bug, bugs, setBugs }) {
   const [newBug, setNewBug] = useState(bug);
@@ -142,7 +143,10 @@ export default function Bug({ bug, bugs, setBugs }) {
       value: "UNDEFINED",
       label: "Unknown",
     },
-    { value: "EASY", label: "Easy" },
+    {
+      value: "EASY",
+      label: "Easy",
+    },
     {
       value: "MEDIUM",
       label: "Medium",
@@ -203,6 +207,26 @@ export default function Bug({ bug, bugs, setBugs }) {
           dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
         />
       </div>
+
+      <div className="flex gap-2">
+        {bug.difficulty != "UNDEFINED" && (
+          <Chip bgColorClass={"bg-indigo-400"} textColorClass="text-indigo-950">
+            {bugDifficultyOptions.map((option) => {
+              if (newBug.difficulty == option.value) {
+                return option.label;
+              }
+            })}
+          </Chip>
+        )}
+        <Chip bgColorClass={"bg-indigo-400"} textColorClass="text-indigo-950">
+          {bugStatusOptions.map((option) => {
+            if (bug.status == option.value) {
+              return option.label;
+            }
+          })}
+        </Chip>
+      </div>
+
       {bug.description ? (
         <p className="mt-2 max-h-30 overflow-auto font-medium">
           {/* if old and new description do not  match -> show new description  */}
@@ -217,7 +241,6 @@ export default function Bug({ bug, bugs, setBugs }) {
           No Description
         </div>
       )}
-
       <Modal
         isModalOpen={isBugExpanded}
         setIsModalOpen={setIsBugExpanded}
