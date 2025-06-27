@@ -245,7 +245,7 @@ export default function Bug({ bug, bugs, setBugs }) {
         isModalOpen={isBugExpanded}
         setIsModalOpen={setIsBugExpanded}
         modalCardClasses={
-          "!bg-indigo-200 !text-indigo-950 w-lg  rounded-xl border-2 border-indigo-300"
+          "!bg-indigo-200 !text-indigo-950 w-lg flex flex-col gap-2  rounded-xl border-2 border-indigo-300"
         }
       >
         <h1 className="text-xl font-bold">{newBug.name}</h1>
@@ -286,7 +286,7 @@ export default function Bug({ bug, bugs, setBugs }) {
         </div>
 
         <TextArea
-          textareaClasses="mt-2 w-full bg-indigo-100 border border-indigo-300 rounded-lg p-2"
+          textareaClasses="mt-2 w-full bg-indigo-100 border min-h-[120px] border-indigo-300 rounded-lg p-2"
           defaultValue={newBug.description}
           value={newBug.description}
           labelClasses="font-medium"
@@ -294,7 +294,7 @@ export default function Bug({ bug, bugs, setBugs }) {
           onChange={(e) =>
             setNewBug({ ...newBug, description: e.target.value })
           }
-        ></TextArea>
+        />
 
         <div className="flex justify-end gap-2 text-lg">
           <Button onClick={() => setIsBugExpanded(false)} uiType="cancel">
