@@ -296,8 +296,18 @@ export default function Bug({ bug, bugs, setBugs }) {
           }
         ></TextArea>
 
-        <Button onClick={() => setIsBugExpanded(false)}>Cancel</Button>
-        <Button onClick={handleModalVisibility}>Save</Button>
+        <div className="flex justify-end gap-2 text-lg">
+          <Button onClick={() => setIsBugExpanded(false)} uiType="cancel">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleModalVisibility}
+            uiType="custom"
+            classNames="rounded bg-indigo-300 px-2 font-bold text-indigo-900 hover:cursor-pointer hover:bg-indigo-800 hover:text-indigo-50"
+          >
+            Save
+          </Button>
+        </div>
       </Modal>
       <Button
         onClick={() => setIsBugExpanded(true)}
