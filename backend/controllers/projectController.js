@@ -49,6 +49,12 @@ const createProject = (req, res) => {
               name: name,
               ownerId: authData.user.id,
             },
+            select: {
+              id: true,
+              name: true,
+              bugs: true,
+              ownerId: true,
+            },
           });
           res.json(newProject);
         } else {
