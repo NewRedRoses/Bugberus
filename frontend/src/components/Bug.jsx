@@ -20,8 +20,6 @@ import Chip from "./Chip";
 export default function Bug({ bug, bugs, setBugs }) {
   const [newBug, setNewBug] = useState(bug);
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
-  const [bugStatus, setBugStatus] = useState(bug.status);
-  const [bugDifficulty, setBugDifficulty] = useState(bug.difficulty);
   const [isBugExpanded, setIsBugExpanded] = useState(false);
 
   const bugUrl = `http://localhost:3000/bug/${bug.id}`;
@@ -104,7 +102,6 @@ export default function Bug({ bug, bugs, setBugs }) {
   };
 
   const handleModalVisibility = () => {
-    console.log(newBug.description);
     handleBugDescriptionSubmit();
     setIsBugExpanded(!isBugExpanded);
   };
@@ -139,10 +136,6 @@ export default function Bug({ bug, bugs, setBugs }) {
   ];
 
   const bugDifficultyOptions = [
-    {
-      value: "UNDEFINED",
-      label: "Unknown",
-    },
     {
       value: "EASY",
       label: "Easy",
@@ -207,9 +200,8 @@ export default function Bug({ bug, bugs, setBugs }) {
           dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
         />
       </div>
-
       <div className="flex gap-2">
-        {bug.difficulty != "UNDEFINED" && (
+        {newBug.difficulty != "UNDEFINED" && (
           <Chip bgColorClass={"bg-indigo-400"} textColorClass="text-indigo-950">
             {bugDifficultyOptions.map((option) => {
               if (newBug.difficulty == option.value) {
@@ -220,7 +212,7 @@ export default function Bug({ bug, bugs, setBugs }) {
         )}
         <Chip bgColorClass={"bg-indigo-400"} textColorClass="text-indigo-950">
           {bugStatusOptions.map((option) => {
-            if (bug.status == option.value) {
+            if (newBug.status == option.value) {
               return option.label;
             }
           })}
@@ -249,16 +241,15 @@ export default function Bug({ bug, bugs, setBugs }) {
         }
       >
         <h1 className="text-xl font-bold">{newBug.name}</h1>
-
         <div className="mb-8 flex flex-col gap-3">
           <div className="pt-4 pb-2">
             <label className="flex gap-3 font-semibold">
               Progress:
               <Selection
-                value={bugStatus}
+                value={newBug.status}
                 onChange={(e) => {
                   handleBugStatusChange(e);
-                  setBugStatus(e.target.value);
+                  setNewBug({ ...newBug, status: e.target.value });
                 }}
                 options={bugStatusOptions}
                 name="status"
@@ -271,10 +262,10 @@ export default function Bug({ bug, bugs, setBugs }) {
             <label className="flex gap-3 font-semibold">
               Difficulty:
               <Selection
-                value={bugDifficulty}
+                value={newBug.difficulty}
                 onChange={(e) => {
                   handleBugDifficultyChange(e);
-                  setBugDifficulty(e.target.value);
+                  setNewBug({ ...newBug, difficulty: e.target.value });
                 }}
                 options={bugDifficultyOptions}
                 name="difficulty"
