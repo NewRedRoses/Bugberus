@@ -72,14 +72,14 @@ function App() {
 
   const sortingActions = [
     {
-      name: "Oldest First",
-      classNames: "data-focus:bg-slate-300",
+      name: "Recently updated",
+      classNames: "data-focus:bg-slate-300 ",
       icon: ClockArrowDown,
       function: () => {
         const sorted = [...projects].sort(
-          (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+          (a, b) => new Date(b.modifiedAt) - new Date(a.modifiedAt),
         );
-        setSortStatus("Sorting by oldest first");
+        setSortStatus("Sorting by most recently updated");
         setProjects(sorted);
       },
     },
