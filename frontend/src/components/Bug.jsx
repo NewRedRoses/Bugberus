@@ -151,8 +151,8 @@ export default function Bug({ bug, bugs, setBugs }) {
   ];
 
   return (
-    <Card classes="flex flex-col place-content-between  h-full sm:h-65 text-indigo-900 bg-indigo-300 shadow">
-      <div className="flex max-w-full justify-between">
+    <Card classes="flex flex-col place-content-between h-full gap-5 text-indigo-900 bg-indigo-300 shadow">
+      <div className="flex max-w-full flex-col justify-between">
         <div className="flex items-center gap-3 text-lg">
           <div className="max-h-fit rounded bg-indigo-400 p-1 px-1">
             <Buggy size={30} />
@@ -192,35 +192,38 @@ export default function Bug({ bug, bugs, setBugs }) {
               </div>
             </div>
           )}
+          <Dropdown
+            menuBtn={<EllipsisVertical />}
+            menuItems={bugActions}
+            anchor="bottom"
+            dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
+          />
         </div>
-        <Dropdown
-          menuBtn={<EllipsisVertical />}
-          menuItems={bugActions}
-          anchor="bottom"
-          dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
-        />
-      </div>
-      <div className="flex gap-2">
-        {newBug.difficulty != "UNDEFINED" && (
+        <div className="mt-2 flex gap-2">
+          {newBug.difficulty != "UNDEFINED" && (
+            <Chip
+              bgColorClass={"bg-indigo-400"}
+              textColorClass="text-indigo-950"
+            >
+              {bugDifficultyOptions.map((option) => {
+                if (newBug.difficulty == option.value) {
+                  return option.label;
+                }
+              })}
+            </Chip>
+          )}
           <Chip bgColorClass={"bg-indigo-400"} textColorClass="text-indigo-950">
-            {bugDifficultyOptions.map((option) => {
-              if (newBug.difficulty == option.value) {
+            {bugStatusOptions.map((option) => {
+              if (newBug.status == option.value) {
                 return option.label;
               }
             })}
           </Chip>
-        )}
-        <Chip bgColorClass={"bg-indigo-400"} textColorClass="text-indigo-950">
-          {bugStatusOptions.map((option) => {
-            if (newBug.status == option.value) {
-              return option.label;
-            }
-          })}
-        </Chip>
+        </div>
       </div>
 
       {bug.description ? (
-        <p className="mt-2 max-h-30 overflow-auto font-medium">
+        <p className="max-h-30 overflow-auto font-medium">
           {/* if old and new description do not  match -> show new description  */}
           {/* else -> show old description */}
           {bug.description != newBug.description
