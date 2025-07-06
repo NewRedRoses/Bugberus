@@ -19,6 +19,11 @@ export default function ProjectBugs({
   const [isBugBeingRenamed, setIsBugBeingRenamed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newBug, setNewBug] = useState({ name: "", description: "" });
+  const [bugsToRender, setBugsToRender] = useState(bugs);
+  const [filtering, setFiltering] = useState({
+    isEnabled: false,
+    filteringBy: "",
+  });
 
   const token = localStorage.getItem("JWT");
 
@@ -45,6 +50,16 @@ export default function ProjectBugs({
         }
         setIsModalOpen(false);
       });
+  };
+
+  const filteringOptions = [
+    { value: "UNDEFINED", label: "Unstarted" },
+    { value: "STARTED", label: "In Progress" },
+    { value: "FINISHED", label: "Completed" },
+  ];
+
+  const filterBugsByStatus = (status) => {
+    return bugs.filter((bug) => bug.status == status);
   };
 
   return (
@@ -123,15 +138,58 @@ export default function ProjectBugs({
           {bugs == null ? (
             <NoContent Icon={BugLucide} message="No bugs tracked" />
           ) : (
-            <ul className="grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2">
-              {bugs.map((bug) => {
-                return (
-                  <li key={bug.id}>
-                    <Bug bug={bug} bugs={bugs} setBugs={setBugs} />
-                  </li>
-                );
-              })}
-            </ul>
+            <>
+              <div className="flex gap-3 pb-5">
+                {filteringOptions.map((option) => {
+                  return (
+                    <Button
+                      key={option.value}
+                      onClick={() => {
+                        setFiltering({
+                          ...filtering,
+                          isEnabled: true,
+                          filteringBy: option.value,
+                        });
+                        setBugsToRender(filterBugsByStatus(option.value));
+                      }}
+                    >
+                      {option.label}
+                    </Button>
+                  );
+                })}
+                <Button
+                  onClick={() => {
+                    setFiltering({ ...filtering, isEnabled: false });
+                  }}
+                >
+                  Reset
+                </Button>
+              </div>
+
+              <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                {filtering.isEnabled ? (
+                  <>
+                    {bugsToRender.map((bug) => {
+                      return (
+                        <li key={bug.id}>
+                          <Bug bug={bug} bugs={bugs} setBugs={setBugs} />
+                        </li>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>
+                    {bugs.map((bug) => {
+                      return (
+                        <li key={bug.id}>
+                          <Bug bug={bug} bugs={bugs} setBugs={setBugs} />
+                        </li>
+                      );
+                    })}
+                  </>
+                )}
+              </ul>
+            </>
           )}
         </>
       )}
