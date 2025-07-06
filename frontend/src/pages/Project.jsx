@@ -68,24 +68,19 @@ export default function Project() {
   }, [bugsUrl]);
 
   const handleProjectDelete = () => {
-    const isProjectDeleteConfirmed = confirm(
-      "Are you sure you would like to delete this project?",
-    );
-    if (isProjectDeleteConfirmed) {
-      axios
-        .delete(projectUrl, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            toast.success("Project deleted successfully.");
-            navigate("/");
-          }
-        })
-        .catch((error) => {
-          toast.error("Error deleting project. Please try again later.");
-        });
-    }
+    axios
+      .delete(projectUrl, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          toast.success("Project deleted successfully.");
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        toast.error("Error deleting project. Please try again later.");
+      });
   };
 
   const handleProjectRename = () => {
