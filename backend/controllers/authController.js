@@ -134,57 +134,66 @@ const transporter = nodemailer.createTransport({
 });
 
 const resetPasswordRequest = async (req, res) => {
-  const isEmailInDb = await prisma.user.findUnique({
-    where: {
-      email: req.body.email,
-    },
-  });
+  const results = validationResult(req);
 
-  let resetToken = crypto.randomBytes(32).toString("hex");
-  const hashedResetToken = await bcrypt.hash(resetToken, 10);
-
-  if (isEmailInDb) {
-    const passwordResetTokenExists = await prisma.passwordToken.findUnique({
+  if (results.isEmpty()) {
+    const isEmailInDb = await prisma.user.findUnique({
       where: {
-        userId: isEmailInDb.id,
+        email: req.body.email,
       },
     });
-    if (passwordResetTokenExists) {
-      await prisma.passwordToken.delete({
+
+    let resetToken = crypto.randomBytes(32).toString("hex");
+    const hashedResetToken = await bcrypt.hash(resetToken, 10);
+
+    if (isEmailInDb) {
+      const passwordResetTokenExists = await prisma.passwordToken.findUnique({
         where: {
-          id: passwordResetTokenExists.id,
+          userId: isEmailInDb.id,
         },
       });
-      await prisma.passwordToken.create({
-        data: {
-          userId: isEmailInDb.id,
-          token: hashedResetToken,
-        },
-      });
-    } else {
-      await prisma.passwordToken.create({
-        data: {
-          userId: isEmailInDb.id,
-          token: hashedResetToken,
-        },
+      if (passwordResetTokenExists) {
+        await prisma.passwordToken.delete({
+          where: {
+            id: passwordResetTokenExists.id,
+          },
+        });
+        await prisma.passwordToken.create({
+          data: {
+            userId: isEmailInDb.id,
+            token: hashedResetToken,
+          },
+        });
+      } else {
+        await prisma.passwordToken.create({
+          data: {
+            userId: isEmailInDb.id,
+            token: hashedResetToken,
+          },
+        });
+      }
+      const link = `${process.env.FRONTEND_URL}/passwordReset?token=${resetToken}&id=${isEmailInDb.id}`;
+      const mailOptions = {
+        from: process.env.EMAIL,
+        to: isEmailInDb.email,
+        subject: "Bugberus - Password Reset Request",
+        html: `<h1>Forgot your password?</h1> <p> A request to have your password for Bugberus was received. If this was you, please click <a href="${link}">${link}</a>.... otherwise, ignore it!</p>`,
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          res.sendStatus(500);
+        } else {
+          res.end();
+        }
       });
     }
-    const link = `${process.env.FRONTEND_URL}/passwordReset?token=${resetToken}&id=${isEmailInDb.id}`;
-    const mailOptions = {
-      from: process.env.EMAIL,
-      to: isEmailInDb.email,
-      subject: "Bugberus - Password Reset Request",
-      html: `<h1>Forgot your password?</h1> <p> A request to have your password for Bugberus was received. If this was you, please click <a href="${link}">${link}</a>.... otherwise, ignore it!</p>`,
-    };
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        res.sendStatus(500);
-      } else {
-        res.end();
-      }
-    });
+    res.end();
+  } else {
+    const errorMessages = results.errors.map(
+      (error) => new Object({ msg: error.msg }),
+    );
+    res.status(422).json(errorMessages);
   }
-  res.end();
 };
 
 const resetPasswordCheck = async (req, res) => {

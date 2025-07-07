@@ -34,11 +34,20 @@ const validateLogin = [
   body("password").trim().notEmpty().withMessage("Password cannot be empty."),
 ];
 
+const validatePasswordReset = [
+  body("email")
+    .trim()
+    .notEmpty()
+    .withMessage("Email cannot be empty.")
+    .isEmail()
+    .withMessage("Please ensure the email is in a valid format"),
+];
+
 authRouter.post("/login", validateLogin, loginPost);
 
 authRouter.post("/signup", validateSignup, signupPost);
 
-authRouter.post("/reset-password", resetPasswordRequest);
+authRouter.post("/reset-password", validatePasswordReset, resetPasswordRequest);
 authRouter.post("/reset-password-check", resetPasswordCheck);
 
 module.exports = authRouter;
