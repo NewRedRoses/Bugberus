@@ -157,47 +157,7 @@ export default function Bug({ bug, bugs, setBugs }) {
           <div className="max-h-fit rounded bg-indigo-400 p-1 px-1">
             <Buggy size={30} />
           </div>
-          {isBugBeingRenamed ? (
-            <div className="flex flex-col content-center justify-center gap-1">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={newBug.name}
-                  className="w-1/2 border-b-2 font-semibold"
-                  onChange={(e) =>
-                    setNewBug({ ...newBug, name: e.target.value })
-                  }
-                />
-                <div>
-                  <Button
-                    classNames="rounded bg-indigo-900 px-2 text-sm font-bold text-indigo-50  hover:cursor-pointer"
-                    uiType="custom"
-                    onClick={handleBugRename}
-                  >
-                    Done
-                  </Button>
-                </div>
-              </div>
-              <div className="text-sm font-normal">
-                {new Date(bug.createdAt).toLocaleDateString()}
-              </div>
-            </div>
-          ) : (
-            <div className="">
-              <div className="max-w-[15ch] overflow-hidden font-semibold text-nowrap text-ellipsis">
-                {newBug.name}
-              </div>
-              <div className="text-sm font-normal">
-                {new Date(bug.createdAt).toLocaleDateString()}
-              </div>
-            </div>
-          )}
-          <Dropdown
-            menuBtn={<EllipsisVertical />}
-            menuItems={bugActions}
-            anchor="bottom"
-            dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
-          />
+          <h1 className="text-lg font-semibold">{newBug.name}</h1>
         </div>
         <div className="mt-2 flex gap-2">
           {newBug.difficulty != "UNDEFINED" && (
@@ -243,7 +203,41 @@ export default function Bug({ bug, bugs, setBugs }) {
           "!bg-indigo-200 !text-indigo-950 w-lg flex flex-col gap-2  rounded-xl border-2 border-indigo-300"
         }
       >
-        <h1 className="text-xl font-bold">{newBug.name}</h1>
+        <div className="flex gap-2">
+          {isBugBeingRenamed ? (
+            <div className="flex flex-col content-center justify-center gap-1">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newBug.name}
+                  className="border-b-2 text-xl font-semibold"
+                  onChange={(e) =>
+                    setNewBug({ ...newBug, name: e.target.value })
+                  }
+                />
+                <div>
+                  <Button
+                    classNames="rounded bg-indigo-900 px-2 text-sm font-bold text-indigo-50  hover:cursor-pointer"
+                    uiType="custom"
+                    onClick={handleBugRename}
+                  >
+                    Done
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
+              <h1 className="text-xl font-bold">{newBug.name}</h1>
+              <Dropdown
+                menuBtn={<EllipsisVertical />}
+                menuItems={bugActions}
+                anchor="bottom"
+                dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
+              />
+            </>
+          )}
+        </div>
         <div className="mb-8 flex flex-col gap-3">
           <div className="pt-4 pb-2">
             <label className="flex gap-3 font-semibold">
