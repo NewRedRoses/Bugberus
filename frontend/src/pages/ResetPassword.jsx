@@ -61,8 +61,11 @@ export default function ResetPassword() {
         );
       })
       .catch((error) => {
+        const responseData = error.response.data;
         if (error.status == 401) {
           toast.error("Invalid or expired token");
+        } else {
+          toast.error(responseData.msg);
         }
       });
   };
