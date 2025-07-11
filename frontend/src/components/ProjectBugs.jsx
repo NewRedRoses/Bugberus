@@ -1,13 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { SquarePlus, Bug as BugLucide } from "lucide-react";
+import { SquarePlus, Bug as BugLucide, X } from "lucide-react";
 
 import Bug from "../components/Bug.jsx";
 import Modal from "../components/Modal";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import NoContent from "../components/NoContent";
+import Chip from "../components/Chip.jsx";
 
 export default function ProjectBugs({
   project,
@@ -140,30 +141,68 @@ export default function ProjectBugs({
           ) : (
             <>
               <div className="flex gap-3 pb-5">
-                {filteringOptions.map((option) => {
-                  return (
+                <div className="font-semibold">Filter by:</div>
+                <div className="flex max-h-15 flex-col gap-2 overflow-auto sm:flex-row">
+                  {filteringOptions.map((option) => {
+                    return (
+                      <div key={option.value}>
+                        {option.value == filtering.filteringBy ? (
+                          <Chip
+                            key={option.value}
+                            bgColorClass={"bg-indigo-400"}
+                            textColorClass="text-indigo-950"
+                            classNames="hover:cursor-pointer px-4 "
+                            onClick={() => {
+                              setFiltering({
+                                ...filtering,
+                                isEnabled: true,
+                                filteringBy: option.value,
+                              });
+                              setBugsToRender(filterBugsByStatus(option.value));
+                            }}
+                          >
+                            <div className="align-center flex">
+                              {option.label}
+                            </div>
+                          </Chip>
+                        ) : (
+                          <Chip
+                            key={option.value}
+                            bgColorClass={"bg-indigo-200"}
+                            textColorClass="text-indigo-900"
+                            classNames="hover:cursor-pointer hover:border-indigo-800 px-4 "
+                            onClick={() => {
+                              setFiltering({
+                                ...filtering,
+                                isEnabled: true,
+                                filteringBy: option.value,
+                              });
+                              setBugsToRender(filterBugsByStatus(option.value));
+                            }}
+                          >
+                            <div className="align-center flex">
+                              {option.label}
+                            </div>
+                          </Chip>
+                        )}
+                      </div>
+                    );
+                  })}
+                  {filtering.isEnabled && (
                     <Button
-                      key={option.value}
+                      uiType="custom"
                       onClick={() => {
                         setFiltering({
                           ...filtering,
-                          isEnabled: true,
-                          filteringBy: option.value,
+                          isEnabled: false,
+                          filteringBy: "",
                         });
-                        setBugsToRender(filterBugsByStatus(option.value));
                       }}
                     >
-                      {option.label}
+                      <X className="text-rose-600" />
                     </Button>
-                  );
-                })}
-                <Button
-                  onClick={() => {
-                    setFiltering({ ...filtering, isEnabled: false });
-                  }}
-                >
-                  Reset
-                </Button>
+                  )}
+                </div>
               </div>
 
               <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2">
