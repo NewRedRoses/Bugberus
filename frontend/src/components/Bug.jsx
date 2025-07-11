@@ -162,8 +162,8 @@ export default function Bug({ bug, bugs, setBugs }) {
         <div className="mt-2 flex gap-2">
           {newBug.difficulty != "UNDEFINED" && (
             <Chip
-              bgColorClass={"bg-indigo-400"}
-              textColorClass="text-indigo-950"
+              bgColorClass={"border border-indigo-400 "}
+              textColorClass="text-indigo-900"
             >
               {bugDifficultyOptions.map((option) => {
                 if (newBug.difficulty == option.value) {
@@ -172,7 +172,10 @@ export default function Bug({ bug, bugs, setBugs }) {
               })}
             </Chip>
           )}
-          <Chip bgColorClass={"bg-indigo-400"} textColorClass="text-indigo-950">
+          <Chip
+            bgColorClass={"border border-indigo-400"}
+            textColorClass="text-indigo-900"
+          >
             {bugStatusOptions.map((option) => {
               if (newBug.status == option.value) {
                 return option.label;
