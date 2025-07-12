@@ -1,3 +1,3 @@
-# Hello
+# Placeholder title
 
-and I cannot stress this enough, hello.
+Bug tracking web app. For further details please look into the front or back end directories. 
