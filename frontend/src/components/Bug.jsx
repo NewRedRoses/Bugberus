@@ -25,6 +25,8 @@ export default function Bug({ bug, bugs, setBugs }) {
   const bugUrl = `http://localhost:3000/bug/${bug.id}`;
 
   const token = localStorage.getItem("JWT");
+  const createdDate = new Date(newBug.createdAt);
+  const modifiedDate = new Date(newBug.modifiedAt);
 
   const handleBugRename = async () => {
     if (bug.name == newBug.name) {
@@ -187,8 +189,6 @@ export default function Bug({ bug, bugs, setBugs }) {
 
       {bug.description ? (
         <p className="max-h-30 overflow-auto font-medium">
-          {/* if old and new description do not  match -> show new description  */}
-          {/* else -> show old description */}
           {bug.description != newBug.description
             ? newBug.description
             : bug.description}
@@ -206,7 +206,7 @@ export default function Bug({ bug, bugs, setBugs }) {
           "!bg-indigo-200 !text-indigo-950 w-lg flex flex-col gap-2  rounded-xl border-2 border-indigo-300"
         }
       >
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
           {isBugBeingRenamed ? (
             <div className="flex flex-col content-center justify-center gap-1">
               <div className="flex gap-2">
@@ -230,7 +230,7 @@ export default function Bug({ bug, bugs, setBugs }) {
               </div>
             </div>
           ) : (
-            <>
+            <div className="flex gap-2">
               <h1 className="text-xl font-bold">{newBug.name}</h1>
               <Dropdown
                 menuBtn={<EllipsisVertical />}
@@ -238,8 +238,18 @@ export default function Bug({ bug, bugs, setBugs }) {
                 anchor="bottom"
                 dropdownClasses="text-indigo-900 bg-indigo-200 border-2 border-indigo-300"
               />
-            </>
+            </div>
           )}
+          <div className="text-md">
+            <div>
+              <span className="font-semibold">Created: </span>
+              {createdDate.toLocaleString()}
+            </div>
+            <div>
+              <span className="font-semibold">Modified: </span>
+              {modifiedDate.toLocaleString()}
+            </div>
+          </div>
         </div>
         <div className="mb-8 flex flex-col gap-3">
           <div className="pt-4 pb-2">
