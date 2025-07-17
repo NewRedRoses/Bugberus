@@ -45,7 +45,7 @@ export default function Signup() {
 
         <div
           id="form"
-          className="mb-2 flex flex-col items-center gap-4 border p-3"
+          className="mb-2 flex flex-col items-center gap-4 rounded border border-slate-300 p-5"
         >
           <Input
             label="Username"

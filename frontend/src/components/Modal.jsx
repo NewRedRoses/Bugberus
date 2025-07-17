@@ -41,7 +41,7 @@ export default function Modal({
         <DialogBackdrop className="fixed inset-0 bg-black/50" />
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
           <DialogPanel
-            className={`max-w-xl space-y-4 rounded bg-slate-100 p-10 ${modalCardClasses}`}
+            className={`max-w-lg space-y-4 rounded bg-slate-100 p-10 ${modalCardClasses}`}
           >
             <div className="flex justify-end pb-2">
               <Button

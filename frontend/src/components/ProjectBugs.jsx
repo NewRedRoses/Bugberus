@@ -140,7 +140,7 @@ export default function ProjectBugs({
             <NoContent Icon={BugLucide} message="No bugs tracked" />
           ) : (
             <>
-              <div className="flex gap-3 pb-5">
+              <div className="flex gap-3 pb-7">
                 <div className="font-semibold">Filter by:</div>
                 <div className="flex max-h-15 flex-col gap-2 overflow-auto sm:flex-row">
                   {filteringOptions.map((option) => {
