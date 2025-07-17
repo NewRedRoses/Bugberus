@@ -18,7 +18,7 @@ export default function Index() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/project/:projectId" element={<Project />} />
-        {/* <Route path="/passwordReset" element={<ResetPassword />} /> */}
+        <Route path="/passwordReset" element={<ResetPassword />} />
       </Routes>
     </div>
   );

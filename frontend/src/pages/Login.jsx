@@ -69,9 +69,9 @@ export default function Login() {
                 setFormData({ ...formData, password: e.target.value })
               }
             />
-            {/* <div className="text-md mt-2"> */}
-            {/*   <NavLink to="/passwordReset">Forgot your password?</NavLink> */}
-            {/* </div> */}
+            <div className="text-md mt-2">
+              <NavLink to="/passwordReset">Forgot your password?</NavLink>
+            </div>
           </div>
         </div>
 

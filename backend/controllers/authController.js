@@ -125,10 +125,12 @@ const signupPost = async (req, res) => {
     res.status(422).json(errorMessages);
   }
 };
+
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.EMAIL_HOST,
+  port: 587,
   auth: {
-    user: process.env.EMAIL,
+    user: process.env.EMAIL_LOGIN,
     pass: process.env.EMAIL_PASSWORD,
   },
 });
@@ -174,25 +176,26 @@ const resetPasswordRequest = async (req, res) => {
       }
       const link = `${process.env.FRONTEND_URL}/passwordReset?token=${resetToken}&id=${isEmailInDb.id}`;
       const mailOptions = {
-        from: process.env.EMAIL,
+        from: process.env.NOREPLY_EMAIL,
         to: isEmailInDb.email,
         subject: "Bugberus - Password Reset Request",
         html: `<h1>Forgot your password?</h1> <p> A request to have your password for Bugberus was received. If this was you, please click <a href="${link}">${link}</a>.... otherwise, ignore it!</p>`,
       };
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-          res.sendStatus(500);
+          res
+            .status(500)
+            .json({ msg: "Error sending request to server. Try again later." });
         } else {
           res.end();
         }
       });
     }
-    res.end();
   } else {
     const errorMessages = results.errors.map(
       (error) => new Object({ msg: error.msg }),
     );
-    res.status(422).json(errorMessages);
+    res.status(422).json(errorMessages[0]);
   }
 };
 
